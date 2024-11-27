@@ -32,7 +32,7 @@ const oklchToHex = str => {
 // https://astro.build/config
 export default defineConfig({
   site: 'https://riyuexingchennnn.github.io/',
-  base: '/dist',
+  base: '/',
   trailingSlash: 'always',
   integrations: [
     tailwind(),
