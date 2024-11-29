@@ -1,0 +1,933 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>日月星辰</title><description>个人博客</description><link>https://riyuexingchennnn.github.io/</link><language>zh_CN</language><item><title>深度学习基础</title><link>https://riyuexingchennnn.github.io/posts/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/</link><guid isPermaLink="true">https://riyuexingchennnn.github.io/posts/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/</guid><pubDate>Wed, 27 Nov 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;前言&lt;/h1&gt;
+&lt;p&gt;FYT视觉组培训，针对RoboMaster的深度学习速成课。&lt;/p&gt;
+&lt;p&gt;预备知识：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;学习完前面的C++培训知识，有基本的编程能力。&lt;/li&gt;
+&lt;li&gt;掌握Python的基本语法。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;参考书籍：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Deep Learning with Python Second Edition (主要讲tensorflow)&lt;/li&gt;
+&lt;li&gt;DIVE INTO DEEP LEARNING (主要讲pytorch)&lt;/li&gt;
+&lt;li&gt;了解CV与RoboMaster视觉组 (视觉组圣经)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;往年的深度学习文档：https://github.com/CSU-FYT-Vision/Vision-Tutorial&lt;/p&gt;
+&lt;p&gt;讲解人&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;计科2205 蔡明辰&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr /&gt;
+&lt;h1&gt;1. 初识深度学习&lt;/h1&gt;
+&lt;h2&gt;1.1 什么是深度学习&lt;/h2&gt;
+&lt;p&gt;深度学习（Deep Learning）是&lt;strong&gt;机器学习&lt;/strong&gt;的一种方法，它利用多层&lt;strong&gt;神经网络&lt;/strong&gt;对数据进行学习，并通过&lt;strong&gt;反向传播&lt;/strong&gt;算法进行&lt;strong&gt;梯度下降&lt;/strong&gt;，从而使得神经网络能够自动学习到数据的特征，并对未知数据进行&lt;strong&gt;预测&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2&gt;1.2 RoboMaster与深度学习&lt;/h2&gt;
+&lt;p&gt;在RoboMaster中，有许多需要使用到深度学习的地方，如图像识别、目标检测等。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;装甲板检测：可以使用实时目标检测装甲板的位置，准确有效击打装甲板。&lt;/li&gt;
+&lt;li&gt;装甲数字识别：使用一个简单的图像分类网络，识别数字。&lt;/li&gt;
+&lt;li&gt;雷达：目标检测赛场上的各种敌我车辆，显示小地图，发动易伤buff。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;所以RMer视觉也要掌握深度学习的基本知识。&lt;/p&gt;
+&lt;h2&gt;1.3 机器学习与深度学习&lt;/h2&gt;
+&lt;h3&gt;1.3.1 机器学习&lt;/h3&gt;
+&lt;p&gt;机器学习的主要任务是从数据中学习，并利用这些知识对未知数据进行预测或决策。机器学习的算法有&lt;strong&gt;监督学习&lt;/strong&gt;、&lt;strong&gt;无监督学习&lt;/strong&gt;、&lt;strong&gt;半监督学习&lt;/strong&gt;、&lt;strong&gt;强化学习&lt;/strong&gt;等。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;输入数据。机器学习的输入数据可以是图像、文本、声音、视频等。&lt;/li&gt;
+&lt;li&gt;预期输出示例。机器学习的预期输出可以是分类、回归、聚类、排序等。&lt;/li&gt;
+&lt;li&gt;衡量算法效果的方法。衡量结果是一种反馈信号，用于调整算法。这个调整的步骤就是我们说的&lt;strong&gt;学习&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;机器学习和深度学习的核心问题在于有意义地变换数据。换句话说，在于学习输入数据的有用表示——这种表示可以让数据更接近预期输出。&lt;/p&gt;
+&lt;p&gt;了解了&lt;strong&gt;学习&lt;/strong&gt;的概念后，看看深度学习的特别之处。&lt;/p&gt;
+&lt;h3&gt;1.3.2 深度学习之“深度”&lt;/h3&gt;
+&lt;p&gt;深度学习是机器学习的一个分支，它利用多层神经网络对数据进行学习。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;可以将深度神经网络看做一个多级的&lt;strong&gt;信息蒸馏&lt;/strong&gt;：信息穿过多层过滤器，其纯度越来越高。&lt;/p&gt;
+&lt;h2&gt;1.4 机器学习算法&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本小节了解即可。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;1.4.1 监督学习&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;监督学习&lt;/strong&gt;擅长在“给定输入特征”的情况下预测标签。&lt;/p&gt;
+&lt;p&gt;监督学习的学习过程一般可以分为三大步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;从已知大量数据样本中随机选取一个子集，为每个样本获取真实标签。有时，这些样本已有标签（例如，患者是否在下一年内康复？）；有时，这些样本可能需要被人工标记（例如，图像分类）。这些输入和相应的标签一起构成了训练数据集；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;选择有监督的学习算法，它将训练数据集作为输入，并输出一个“已完成学习的模型”；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;将之前没有见过的样本特征放到这个“已完成学习的模型”中（测试集），使用模型的输出作为相应标签的预测。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/9.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;回归&lt;/strong&gt;问题：输出是数值类型&lt;/p&gt;
+&lt;p&gt;举例：通过各种影响因素预测房价、预测用户对一部电影的评分可以被归类为一个回归问题&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;分类&lt;/strong&gt;问题：输出是类别的分类问题的常见损失函数被称为 &lt;strong&gt;交叉熵&lt;/strong&gt; （cross-entropy）&lt;/p&gt;
+&lt;p&gt;举例：从手写数据集中区分0~9（类别问题）、以下图片是否是毒蘑菇（二分类问题）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/10.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;模型通常给出的是一个概率：比如输入以上蘑菇，分类器可能输出0.8
+可以这样理解：分类器90%确定图像描绘的是一只猫&lt;/p&gt;
+&lt;h3&gt;1.4.2 无监督学习&lt;/h3&gt;
+&lt;p&gt;监督学习要向模型提供巨大数据集：每个样本包含特征和相应标签值。&lt;/p&gt;
+&lt;p&gt;相反，如果工作没有十分具体的目标，就需要“自发”地去学习了。 比如，老板可能会给我们一大堆数据，然后要求用它做一些数据科学研究，却没有对结果有要求。 这类数据中不含有“目标”的机器学习问题通常被为 &lt;strong&gt;无监督学习&lt;/strong&gt;（unsupervised learning）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;聚类 （clustering）问题：没有标签的情况下，我们是否能给数据分类呢？比如，给定一组照片，我们能把它们分成风景照片、狗、婴儿、猫和山峰的照片吗？同样，给定一组用户的网页浏览记录，我们能否将具有相似行为的用户聚类呢？&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;主成分分析 （principal component analysis）问题：我们能否找到少量的参数来准确地捕捉数据的线性相关属性？比如，一个球的运动轨迹可以用球的速度、直径和质量来描述。再比如，裁缝们已经开发出了一小部分参数，这些参数相当准确地描述了人体的形状，以适应衣服的需要。另一个例子：在欧几里得空间中是否存在一种（任意结构的）对象的表示，使其符号属性能够很好地匹配?这可以用来描述实体及其关系，例如“罗马” − “意大利” + “法国” = “巴黎”。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;因果关系 （causality）和 概率图模型 （probabilistic graphical models）问题：我们能否描述观察到的许多数据的根本原因？例如，如果我们有关于房价、污染、犯罪、地理位置、教育和工资的人口统计数据，我们能否简单地根据经验数据发现它们之间的关系？&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;生成对抗性网络 （generative adversarial networks）：为我们提供一种合成数据的方法，甚至像图像和音频这样复杂的非结构化数据。潜在的统计机制是检查真实和虚假数据是否相同的测试，它是无监督学习的另一个重要而令人兴奋的领域。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;1.4.3 半监督学习&lt;/h3&gt;
+&lt;p&gt;半监督学习（Semi-Supervised Learning, SSL）是一种介于监督学习和无监督学习之间的机器学习方法。它利用少量标注数据和大量未标注数据共同训练模型，目标是提高模型的性能，同时减少对标注数据的依赖。半监督学习方法在标注数据获取成本较高或数据标注较困难的场景中非常有用，例如医学影像分析、自然语言处理和计算机视觉等领域。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;标记样本少的类别：可以用聚类算法来标记样本少的类别。&lt;/li&gt;
+&lt;li&gt;标记样本多的类别：可以用生成模型来标记样本多的类别。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;1.4.4 强化学习&lt;/h3&gt;
+&lt;p&gt;强化学习（Reinforcement Learning）是机器学习的一种方法，它通过与环境的互动来学习。&lt;/p&gt;
+&lt;p&gt;强化学习的目标是产生一个好的 &lt;strong&gt;策略&lt;/strong&gt; （policy）。&lt;/p&gt;
+&lt;p&gt;模型根据对环境的观察产生一定的动作，将这个动作应用到环境当中，模型从环境中获得 &lt;strong&gt;奖励&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;举例：AlphaGo&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.bilibili.com/video/BV1xn4y1R7GQ/?share_source=copy_web&amp;amp;vd_source=e4838a460d5e965db0426ab9bd050b56&quot;&gt;本科毕设 非嵌入式离线强化学习制作皇室战争AI与8000分人机的获胜对局&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;1.4 用三张图理解深度学习的工作原理&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/3.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/4.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;1.5 深度学习的硬件&lt;/h2&gt;
+&lt;p&gt;CPU、GPU、TPU(张量处理器)&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.bilibili.com/video/BV1xE421j7Uv/?share_source=copy_web&amp;amp;vd_source=e4838a460d5e965db0426ab9bd050b56&quot;&gt;【硬核科普】从零开始认识显卡&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;2007年，NVIDIA推出了CUDA，它是一种基于GPU的并行编程模型，可以让程序员编写并行代码，并在GPU上运行。&lt;/p&gt;
+&lt;h2&gt;1.6 深度学习的历史与发展&lt;/h2&gt;
+&lt;h3&gt;1.6.1 神经网络的核心关键原则：&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;线性和非线性处理单元的交替&lt;/strong&gt;&lt;br /&gt;
+通常称为层（layers）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;使用链式规则（也称为反向传播 Backpropagation）&lt;/strong&gt;&lt;br /&gt;
+一次性调整网络中的全部参数。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;1.6.2深度学习的提出历史：&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;一些中流砥柱的模型：
+&lt;ul&gt;
+&lt;li&gt;多层感知机（McCulloch and Pitts, 1943）&lt;/li&gt;
+&lt;li&gt;卷积神经网络（LeCun et al., 1998）&lt;/li&gt;
+&lt;li&gt;长短期记忆网络（Graves and Schmidhuber, 2005）&lt;/li&gt;
+&lt;li&gt;Q学习（Watkins and Dayan, 1992）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;曾因对休眠期和当时技术限制被搁置一段时间后，过去十年被重新发现。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;1.6.3 为什么最近十几年深度学习才重新“热门”？&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;网络和图像传感器的发展使得数据的获取变得廉价&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;大量图片、视频和用户数据信息使得大规模数据集变得触手可及。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;运算设备的算力发展&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;GPU的普及，使大规模算力唾手可得。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;深度学习框架在传播想法方面发挥了至关重要的作用&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;例如，PyTorch 和 TensorFlow。&lt;/li&gt;
+&lt;li&gt;在2014年之前，对卡内基梅隆大学机器学习博士生来说，训练全性能回归模型曾是一个复杂的作业问题。而现在，这项任务只需不到10行代码即可完成。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;2. 神经网络的基本数学概念&lt;/h1&gt;
+&lt;h2&gt;2.1 张量 (Tensor) 介绍&lt;/h2&gt;
+&lt;p&gt;张量是多维数组的泛化，用于表示标量、向量、矩阵及更高维数据。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;标量 (Scalar)&lt;/strong&gt;&lt;br /&gt;
+标量是零维张量，仅表示一个数值，例如：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;x = np.array(5)  # 标量
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;向量 (Vector)&lt;/strong&gt;&lt;br /&gt;
+向量是一维张量，例如：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;x = np.array([1, 2, 3])  # 向量
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;矩阵 (Matrix)&lt;/strong&gt;&lt;br /&gt;
+矩阵是二维张量，例如：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;x = np.array([[1, 2], [3, 4]])  # 矩阵
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;张量 (Tensor)&lt;/strong&gt;&lt;br /&gt;
+张量是更高维度的数组&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;2.2 张量运算的导数——梯度 (Gradient)&lt;/h2&gt;
+&lt;p&gt;导数这一概念可以应用于任意函数，只要函数所对应的表面是连续且光滑的。张量运算（或张量函数）的导数叫作梯度（gradient）。梯度就是将导数这一概念推广到以张量为输入的函数，张量函数的梯度表示该函数所对应多维表面的曲率（curvature）。&lt;/p&gt;
+&lt;h2&gt;2.3 链式求导（Chain Rule）&lt;/h2&gt;
+&lt;p&gt;链式求导是神经网络梯度计算的核心工具，用于计算复合函数的导数。&lt;/p&gt;
+&lt;p&gt;如果函数 $z = f(g(x))$，则导数计算为：&lt;/p&gt;
+&lt;p&gt;$$
+\frac{\partial z}{\partial x} = \frac{\partial z}{\partial g} \cdot \frac{\partial g}{\partial x}
+$$&lt;/p&gt;
+&lt;p&gt;在神经网络中，每一层的输出是上一层的输入，链式求导用于将输出误差逐层反传以更新权重。&lt;/p&gt;
+&lt;h2&gt;2.4 随机梯度下降 (Stochastic Gradient Descent)&lt;/h2&gt;
+&lt;p&gt;给定一个可微函数，理论上可以用解析法找到它的最小值，找到所有导数为0的点，然后比较函数在其中哪个点的取值最小。将这一方法应用于神经网络，就是用解析法求出&lt;strong&gt;损失函数&lt;/strong&gt;最小值对应的所有权重值。但在实际中，求解析解往往是不可行的。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;一个两个参数求解析解还好说，但是神经网络的参数不会少于几千个，而且经常有上千万个。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;SGD的步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;抽取训练样本 x 和对应目标 y_true 组成的一个数据批量。&lt;/li&gt;
+&lt;li&gt;在 x 上运行模型，得到预测值 y_pred。这一步叫作&lt;strong&gt;前向传播&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;计算模型在这批数据上的损失值，用于衡量 y_pred 和 y_true 之间的差距。&lt;/li&gt;
+&lt;li&gt;计算损失相对于模型参数的梯度。这一步叫作&lt;strong&gt;反向传播&lt;/strong&gt;（backward pass）。&lt;/li&gt;
+&lt;li&gt;将参数沿着梯度的反方向移动一小步，比如 W -= learning_rate* gradient，从而使这批数据上的损失值减小一些。&lt;strong&gt;学习率&lt;/strong&gt;（learning_rate）是一个调节梯度下降“速度”的标量因子。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;⼀维损失函数曲线的随机梯度下降&lt;/th&gt;
+&lt;th&gt;⼆维损失表⾯的梯度下降&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/11.png&quot; alt=&quot;&quot; /&gt;&lt;/td&gt;
+&lt;td&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/12.png&quot; alt=&quot;&quot; /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;如你所见，直观上来看，&lt;code&gt;learning_rate&lt;/code&gt; 因子的取值很重要。如果取值太小，那么沿着曲线下降需要很多次迭代，而且可能会陷入局部极小点（鞍点）。如果取值过大，那么更新权重值之后可能会出现在曲线上完全随机的位置。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/13.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;局部最⼩点的解决办法：动量。&lt;/p&gt;
+&lt;p&gt;更新参数 w 不仅要考虑当前梯度值，还要考虑上⼀次参数更新。&lt;/p&gt;
+&lt;p&gt;w(新) = w(旧) + momentum(动量因⼦) * velocity - learning_rate * gradient&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;2.5 反向传播 (Backpropagation)&lt;/h2&gt;
+&lt;p&gt;反向传播是通过&lt;strong&gt;链式法则&lt;/strong&gt;计算神经⽹络梯度的算法。&lt;/p&gt;
+&lt;p&gt;反向传播的⼯作流程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;前向传播：从输⼊层到输出层计算⽹络的预测值。&lt;/li&gt;
+&lt;li&gt;损失计算：通过损失函数衡量预测值与真实值的误差。&lt;/li&gt;
+&lt;li&gt;反向传播：利⽤链式求导从输出层逐层计算梯度。&lt;/li&gt;
+&lt;li&gt;参数更新：使⽤优化器更新权重和偏置。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;2.6 优化器 (Optimizer)&lt;/h2&gt;
+&lt;p&gt;优化器是用于最小化损失函数的算法，通过梯度更新神经网络的参数。&lt;/p&gt;
+&lt;h3&gt;常见优化器&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;随机梯度下降 (SGD)&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;批量随机梯度下降，随机梯度下降，小批量随机梯度下降&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;AdaGrad&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;适合处理稀疏数据，但学习率可能逐渐变小。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;RMSProp&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;通过均方根调整学习率，适合非平稳目标。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Adam&lt;/strong&gt;&lt;br /&gt;
+综合了动量法和 RMSProp：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;2.7 用计算图看正向传播和反向传播&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/27.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;前向传播的过程比较简单，从输入层开始，逐层计算每一层的输出，直到得到最终的预测值。&lt;/p&gt;
+&lt;p&gt;“如果反过来看？”&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/28.png&quot; alt=&quot;&quot; /&gt;&lt;/td&gt;
+&lt;td&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/29.png&quot; alt=&quot;&quot; /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;对该图应用&lt;strong&gt;链式法则&lt;/strong&gt;，可以计算出我们想要的梯度（损失函数相对于参数的梯度偏导）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;grad(loss_val,w) = 1 x 1 x 2 = 2&lt;/li&gt;
+&lt;li&gt;grad(loss_val,b) = 1 x 1 = 1&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;然后，我们就可以用这些梯度来更新参数w和b了。&lt;/p&gt;
+&lt;h1&gt;3. 从线性回归到神经网络&lt;/h1&gt;
+&lt;h2&gt;3.1 主要目的&lt;/h2&gt;
+&lt;p&gt;学习如何⽤PyTorch编程。&lt;/p&gt;
+&lt;h2&gt;3.2 任务目标&lt;/h2&gt;
+&lt;p&gt;线性回归的式⼦满⾜：y = w*x + b，其中w和b均为参数，x，y可以理解成特征值和⽬标值，在程序中我们指定x，w，b，⽬标值y也随之确定了下来。然后将x通过神经⽹络进⾏训练，我们希望通过训练，使得随机初始化的参数w和b能够逼近⼀开始我们指定的w，b，使得预测值pred和实际的⽬标值y能够⽆限接近。&lt;/p&gt;
+&lt;h2&gt;3.3 损失函数 (Loss Function)&lt;/h2&gt;
+&lt;p&gt;损失函数⽤于衡量模型预测值与真实值的差距。通常我们会选择⾮负数作为损失，且数值越⼩表⽰损失越⼩，完美预测时的损失为0。回归问题中最常⽤的损失函数是平⽅误差函数。&lt;/p&gt;
+&lt;p&gt;$$
+l^{(i)}(\mathbf{w}, b) = \frac{1}{2} \left( \hat{y}^{(i)} - y^{(i)} \right)^2
+$$&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$\frac{1}{2}$并不会带来本质上的区别，只是为了求导简单&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/16.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;我们需要计算在训练集n个样本上的损失均值：&lt;/p&gt;
+&lt;p&gt;$$
+L(\mathbf{w}, b) = \frac{1}{n} \sum_{i=1}^{n} l^{(i)}(\mathbf{w}, b) = \frac{1}{n} \sum_{i=1}^{n} \frac{1}{2}
+\left( \mathbf{w}^\top \mathbf{x}^{(i)} + b - y^{(i)} \right)^2.
+$$&lt;/p&gt;
+&lt;h2&gt;3.4 代码实现&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;import torch
+import torch.nn as nn
+import torch.optim as optim
+import matplotlib.pyplot as plt
+
+# 1. 生成数据
+# 创建一些模拟数据，假设 y = 3x + 2 + 噪声
+torch.manual_seed(42)  # 设置随机种子
+x = torch.linspace(0, 10, 100).unsqueeze(1)  # 输入数据 (100, 1)
+y = 3 * x + 2 + torch.randn(100, 1) * 2  # 输出数据带噪声 (100, 1)
+
+# 2. 定义一个简单的线性回归模型
+class LinearRegressionModel(nn.Module):
+    def __init__(self):
+        super(LinearRegressionModel, self).__init__()
+        self.linear = nn.Linear(1, 1)  # 输入特征维度1，输出特征维度1
+
+    def forward(self, x):
+        return self.linear(x)
+
+model = LinearRegressionModel()
+
+# 3. 定义损失函数和优化器
+criterion = nn.MSELoss()  # 均方误差损失
+optimizer = optim.SGD(model.parameters(), lr=0.01)  # 随机梯度下降优化器
+
+# 4. 训练模型
+epochs = 100  # 迭代次数
+losses = []  # 记录损失
+
+for epoch in range(epochs):
+    model.train()  # 设置为训练模式
+    optimizer.zero_grad()  # 清空梯度
+
+    predictions = model(x)  # 模型预测
+    loss = criterion(predictions, y)  # 计算损失
+    loss.backward()  # 反向传播计算梯度
+    optimizer.step()  # 更新模型参数
+
+    losses.append(loss.item())  # 记录损失
+
+    # 每100次输出一次训练信息
+    if (epoch + 1) % 10 == 0:
+        print(f&quot;Epoch {epoch+1}/{epochs}, Loss: {loss.item():.4f}&quot;)
+
+# 5. 可视化训练结果
+# 绘制损失曲线
+plt.figure(figsize=(10, 5))
+plt.plot(range(epochs), losses)
+plt.title(&quot;Loss Curve&quot;)
+plt.xlabel(&quot;Epochs&quot;)
+plt.ylabel(&quot;MSE Loss&quot;)
+plt.show()
+
+# 绘制预测结果
+model.eval()  # 设置为评估模式
+with torch.no_grad():
+    predicted = model(x)  # 模型预测
+
+plt.figure(figsize=(10, 5))
+plt.scatter(x.numpy(), y.numpy(), label=&quot;Ground Truth&quot;)  # 原始数据
+plt.plot(x.numpy(), predicted.numpy(), color=&quot;red&quot;, label=&quot;Predicted&quot;)  # 预测结果
+plt.legend()
+plt.title(&quot;Linear Regression Result&quot;)
+plt.show()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/14.png&quot; alt=&quot;&quot; /&gt;&lt;/th&gt;
+&lt;th&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/15.png&quot; alt=&quot;&quot; /&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;损失曲线&lt;/td&gt;
+&lt;td&gt;预测结果&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;学习链接：&lt;a href=&quot;https://blog.csdn.net/Delusional/article/details/113097030?fromshare=blogdetail&amp;amp;sharetype=blogdetail&amp;amp;sharerId=113097030&amp;amp;sharerefer=PC&amp;amp;sharesource=m0_72845244&amp;amp;sharefrom=from_link&quot;&gt;详解使⽤pytorch实现线性回归&lt;/a&gt;&lt;/p&gt;
+&lt;h1&gt;4. 机器学习基础知识&lt;/h1&gt;
+&lt;h2&gt;4.1 机器学习的目标&lt;/h2&gt;
+&lt;p&gt;泛化：模型在未见过的数据上的表现。&lt;/p&gt;
+&lt;h3&gt;4.1.1 ⽋拟合和过拟合&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;根据泛化的定义，我们希望模型在我们没有训练过的数据上也取得很好的效果，⽽不是只在训练集上有很好的效果。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;欠拟合：模型在训练集和测试集上表现都很差。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;过拟合：模型在训练集上表现很好，但在测试集上表现很差。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其实很好理解，训练开始时，模型还没有对训练数据中的所有相关模式建模。因此，模型在训练集和测试集上的表现都很差，这就是欠拟合。&lt;/p&gt;
+&lt;p&gt;训练到一定程度后，模型开始仅学习和训练数据有关的模式，并且开始学习训练数据中的噪声和细节，但对新数据而言，这些噪声和细节是不相关的。这就是过拟合。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/20.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;h3&gt;4.1.2 嘈杂的训练数据&lt;/h3&gt;
+&lt;p&gt;MNIST数据集中就有很多异常值。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/22.png&quot; alt=&quot;&quot; /&gt;&lt;/td&gt;
+&lt;td&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/23.png&quot; alt=&quot;&quot; /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;如果模型将这些异常值(噪声)全部考虑进去，那么它的泛化性能将会下降&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/24.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;左边是稳健拟合，右边是过拟合&lt;/p&gt;
+&lt;h2&gt;4.2 评估机器学习的性能&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;优化和泛化之间的矛盾，欠拟合和过拟合之间的矛盾&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;4.2.1 训练集、验证集和测试集&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;简单的留出验证
+&lt;ul&gt;
+&lt;li&gt;一般验证集占数据集的20%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;K折交叉验证
+&lt;ul&gt;
+&lt;li&gt;有时候验证集很少，无法在统计学上代表数据
+&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/21.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;4.2.2 评估模型的注意事项&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;数据的代表性&lt;/li&gt;
+&lt;li&gt;数据冗余&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;4.3 改进模型拟合&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;调节关键梯度下降参数&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;学习率&lt;/li&gt;
+&lt;li&gt;批量大小&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;利用更好的模型架构&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;提高模型的容量(大小)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;4.4 提高模型的泛化能力&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;数据集管理&lt;/li&gt;
+&lt;li&gt;提前终止，防止过拟合&lt;/li&gt;
+&lt;li&gt;模型正则化
+&lt;ul&gt;
+&lt;li&gt;缩减模型容量&lt;/li&gt;
+&lt;li&gt;权重正则化&lt;/li&gt;
+&lt;li&gt;Dropout
+&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/25.png&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;5. 多层感知机（MLP）从入门到实践&lt;/h1&gt;
+&lt;p&gt;在上⾯的线性神经⽹络中我们了解很多深度学习的概念，那现在我们要深⼊对于深度神经⽹络的探索。&lt;/p&gt;
+&lt;h2&gt;5.1 隐藏层 (Hidden Layer)&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;隐藏层是神经⽹络的核⼼，它可以帮助我们学习⾮线性关系。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在线性⽹络中我们描述了仿射变换，这在深度学习种是⼀种线性变换，如果我们的输⼊输出满⾜线性关系，那么这样就⾜够了，但是线性是⼀个很强的假设；线性模型是很容易出错的，因为我们⽆法保证线性相关的关系。&lt;/p&gt;
+&lt;p&gt;举例：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;我们尝试预测⼀个⼈是否会还贷，我们可以认为，在其他条件不变的情况下，收⼊较⾼的申请⼈⽐收⼊较低的申请⼈更有可能偿还贷款。但是，虽然收⼊与还款概率存在单调性，但它们不是线性相关的。收⼊从0增加到5万，可能⽐从100万增加到105万带来更⼤的还款可能性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;我们想要根据体温预测死亡率。 对体温⾼于37摄⽒度的⼈来说，温度越⾼⻛险越⼤。然⽽，对体温低于37摄⽒度的⼈来说，温度越⾼⻛险就越低。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;我们可以通过在⽹络中加⼊⼀个或多个隐藏层来克服线性模型的限制，使其能处理更普遍的函数关系类型。最简单的⽅法就是将多个全连接层连接到⼀起，这种架构通常称为多层感知机（multilayer perceptron），通常缩写为 &lt;strong&gt;MLP&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/17.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;这是⼀个两层的⽹络&lt;/li&gt;
+&lt;li&gt;对于这种输入和输出的每个节点都相连的层，我们一般称为&lt;strong&gt;全连接层&lt;/strong&gt;或&lt;strong&gt;稠密层&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;全连接层的开销⾮常⼤，需要权衡性能和参数规模&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;仿射变换=权重*参数+偏置&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;仿射变换的组合还是仿射变换&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;那么这个模型还是线性的，依然没有解决上述线性模型表达能⼒弱的问题，我们需要有⼀个函数使他变成⾮线性的：&lt;strong&gt;激活函数&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;如果没有激活函数，那么每个隐藏层仅仅只是⼀个仿射函数，与线性模型并⽆区别，为了避免多层感知机模型退化成线性模型，我们需要引⼊激活函数。&lt;/p&gt;
+&lt;h2&gt;5.2 激活函数 (Activation Function)&lt;/h2&gt;
+&lt;p&gt;激活函数引⼊⾮线性特性，使神经⽹络能够拟合复杂的函数。&lt;/p&gt;
+&lt;h3&gt;常见激活函数&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Sigmoid&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;$$
+\sigma(x) = \frac{1}{1 + e^{-x}}
+$$&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;将输出映射到 (0, 1)，适⽤于概率预测。&lt;/li&gt;
+&lt;li&gt;容易引发梯度消失问题。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/19.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Tanh
+$$
+\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}
+$$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ReLU (Rectified Linear Unit)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;$$
+\text{ReLU}(x) = \max(0, x)
+$$&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;当输⼊为负时，ReLU函数的导数为0，⽽当输⼊为正时，ReLU函数的导数为1。&lt;/li&gt;
+&lt;li&gt;注意，当输⼊值精确等于0时，ReLU函数不可导。在此时，我们默认使⽤左侧的导数，即当输⼊为0时,导数为0。但我们可以忽略这个问题，在⼯程实际中，⼏乎是永远不可能为0的。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/18.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Softmax&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;$$
+\text{Softmax}(x_i) = \frac{e^{x_i}}{\sum_{j=1}^n e^{x_j}}
+$$&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;⽤于多分类任务，将输出转化为概率分布。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;5.3 softmax分类&lt;/h2&gt;
+&lt;p&gt;softmax分类器是多分类问题中常用的分类器，它将输入的特征映射到一个概率分布，使得每个类别的概率之和为1。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/26.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;现在经过上面三个公式（等于是三个单独的线性回归）的计算，我们已经得到了三个数；为了得到最后预测结果是啥，我们选择最大概率的标签为预测结果。&lt;/p&gt;
+&lt;p&gt;假设输出为0.1，0.8，0.1，那么我们预测的类别就是2&lt;/p&gt;
+&lt;h2&gt;5.4 MLP实战——MNIST⼿写数字识别&lt;/h2&gt;
+&lt;p&gt;MNIST数据集包含60,000个训练样本和10,000个测试样本，每个样本是一个28x28像素的灰度图像，表示一个手写数字（0-9）。目标是训练一个模型，能够准确地识别这些手写数字。&lt;/p&gt;
+&lt;p&gt;CSDN博客：&lt;a href=&quot;https://blog.csdn.net/m0_72845244/article/details/131730803?fromshare=blogdetail&amp;amp;sharetype=blogdetail&amp;amp;sharerId=131730803&amp;amp;sharerefer=PC&amp;amp;sharesource=m0_72845244&amp;amp;sharefrom=from_link&quot;&gt;keras⼊⻔实例(MNIST数字分类)&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Pytorch加载数据集&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;import torch
+from torchvision import datasets, transforms
+
+# 数据预处理
+transform = transforms.Compose([
+    transforms.ToTensor(),  # 转为 PyTorch 的 Tensor 格式
+    transforms.Normalize((0.5,), (0.5,))  # 对数据进行归一化，均值和标准差为 0.5
+])
+
+# 加载训练集和测试集
+train_dataset = datasets.MNIST(root=&apos;./data&apos;, train=True, transform=transform, download=True)
+test_dataset = datasets.MNIST(root=&apos;./data&apos;, train=False, transform=transform, download=True)
+
+# 数据加载器
+train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=64, shuffle=True)
+test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=64, shuffle=False)
+
+print(f&quot;训练集样本数: {len(train_dataset)}&quot;)
+print(f&quot;测试集样本数: {len(test_dataset)}&quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.bilibili.com/video/BV1Rz4y1h7nN/?share_source=copy_web&amp;amp;vd_source=e4838a460d5e965db0426ab9bd050b56&quot;&gt;神经网络可视化&lt;/a&gt;&lt;/p&gt;
+&lt;h1&gt;5. Linux下配置深度学习环境&lt;/h1&gt;
+&lt;h2&gt;5.1 安装显卡驱动&lt;/h2&gt;
+&lt;p&gt;强烈建议通过ubuntu22.04的官⽅GUI软件 &lt;strong&gt;软件和更新&lt;/strong&gt; 安装显卡驱动。(Linux官⽅把nvidia驱动已经做的相当好了，安装起来也很⽅便。但是NVIDIA驱动其实还会有各式各样的BUG，包括Linux之⽗Linus Torvalds曾经说过的那样：“NVIDIA是最难伺候的硬件制造商，也是我们接触过最糟糕的公司，没有之⼀，&lt;s&gt;SO NVIDIA FUCKNVIDIA YOU&lt;/s&gt;”.)&lt;/p&gt;
+&lt;p&gt;图标⻓这样(有时候它是灰⾊的), &lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/6.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;安装成功后在终端使⽤&lt;code&gt;nvidia-smi&lt;/code&gt;可以看到GPU信息，看到就算安装成功&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;nvidia-smi
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/8.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;这⾥显⽰的CUDA版本是最⾼⽀持版本，安装个⽐这低的就⾏(但是也不能太低，下⾯会讲)。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/7.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;如果想要更改显卡驱动，也可以在这⾥改。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;显卡驱动安装需要谨慎对待，尽量安装recommend版本，否则可能会导致ubuntu桌⾯不显⽰、开机不了、电脑副屏幕不显⽰等问题。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;装错显卡驱动时，不到万不得已，不要使⽤&lt;code&gt;sudo apt autoremove&lt;/code&gt;，这是下下策。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;5.2 安装CUDA&lt;/h2&gt;
+&lt;p&gt;显卡驱动版本和CUDA版本有⼀定的对应关系。&lt;/p&gt;
+&lt;p&gt;CUDA版本：&lt;a href=&quot;https://developer.nvidia.com/cuda-toolkit-archive&quot;&gt;CUDA Toolkit Archive&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;CUDA版本和驱动版本的对应关系可以看: &lt;a href=&quot;https://sundaygeek.blog.csdn.net/article/details/86695400?fromshare=blogdetail&amp;amp;sharetype=blogdetail&amp;amp;sharerId=86695400&amp;amp;sharerefer=PC&amp;amp;sharesource=m0_72845244&amp;amp;sharefrom=from_link&quot;&gt;不同版本cuda对应的NVIDIA驱动版本&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;但是CUDA版本也不⼀定是越新越好，某些较新的CUDA版本可能没有pytorch的适配版本，所以安装时要注意。(这其实是配环境很常⻅的事情，不同软件由不同公司⼚家开发，进度各有快慢，版本兼容性也不⼀样，所以需要注意。)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;不要下载deb格式的，下载runfile！！！！&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Cuda的⼀个安装教程： https://yinguobing.com/install-cuda11-with-runfile/&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;nvcc -V
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/8.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;如果显⽰了这个代表安装成功。这⾥显⽰的CUDA版本是11.5，同学们也可以下载这个版本的CUDA。&lt;/p&gt;
+&lt;h2&gt;5.3 安装Python环境&lt;/h2&gt;
+&lt;p&gt;我们要使⽤pip⼯具安装深度学习的⼀些包，有numpy、tensorflow、keras、pytorch等&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pip install numpy tensorflow keras torch torchvision -i https://pypi.tuna.tsinghua.edu.cn/simple
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;后⾯的 https://pypi.tuna.tsinghua.edu.cn/simple 是清华⼤学的镜像源地址，下载速度⽐较快。&lt;/p&gt;
+&lt;p&gt;如果不想安装tensorflow，可以只安装pytorch。把 tensorflow keras 去掉。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这⾥的安装命令是安装最新版本适配你电脑python环境的包，如果想安装特定版本的包，可以加上版本号。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果发现还是下载不了，也可以在官⽹上找到你想要torch和torchvision的版本，然后⼿动下载安装。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;官⽹下载：&lt;a href=&quot;https://download.pytorch.org/whl/torch_stable.html&quot;&gt;torch版本⼤全&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;然后使⽤pip安装。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pip install *.whl
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;最后，检查⼀下pytorch是否安装成功。是否能使⽤cuda。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;python
+import torch
+torch.cuda.is_available()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果能输出True，那么恭喜你安装成功。&lt;/p&gt;
+&lt;h2&gt;5.4 安装Anaconda&lt;/h2&gt;
+&lt;p&gt;Anaconda是⼀个python包管理虚拟环境（可装可不装，不过还是建议装上）&lt;/p&gt;
+&lt;p&gt;官⽹： https://zhuanlan.zhihu.com/p/459607806&lt;/p&gt;
+&lt;p&gt;可以参考的国内教程： https://zhuanlan.zhihu.com/p/459607806&lt;/p&gt;
+&lt;p&gt;官⽹安装教程： https://docs.anaconda.com/free/anaconda/install/linux/&lt;/p&gt;
+&lt;p&gt;因为ubuntu22.04默认安装了python3.10.7，正常就是ROS2 Humble需要的python版本，所以可以直接使⽤本机的python版本。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果有需要使⽤某些Qt程序，⽐如PyQt5，可能需要利⽤Anacoda安装python的3.9版本才能使⽤Qt。正常使⽤时来回切换python版本即可。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;conda create -n XXX python=3.9
+conda activate XXX # 进入虚拟环境
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;conda deactivate # 退出虚拟环境
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果配置有困难的同学可以先使⽤&lt;code&gt;Google Colab&lt;/code&gt;进⾏深度学习实验。但是配环境是每⼀个RoboMaster
+视觉组新⼿⼩⽩都需要的基本能⼒，建议⼤家都掌握。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr /&gt;
+&lt;h1&gt;作业&lt;/h1&gt;
+&lt;p&gt;重新实现课上的MNIST⼿写数字识别分类的例子。&lt;/p&gt;
+&lt;p&gt;要求：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;使用PyTorch实现。&lt;/li&gt;
+&lt;li&gt;要求使用&lt;strong&gt;多层感知机MLP&lt;/strong&gt;模型。&lt;/li&gt;
+&lt;li&gt;在Gitee中提交python代码或或ipynb文件和训练结果(曲线图)。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;截止日期：看群通知。&lt;/p&gt;
+</content:encoded></item><item><title>计算机视觉深度学习入门</title><link>https://riyuexingchennnn.github.io/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/</link><guid isPermaLink="true">https://riyuexingchennnn.github.io/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/</guid><pubDate>Wed, 27 Nov 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;前言&lt;/h1&gt;
+&lt;p&gt;FYT视觉组培训，针对RoboMaster的深度学习速成课。&lt;/p&gt;
+&lt;p&gt;预备知识：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;学习完前面的C++培训知识，有基本的编程能力。&lt;/li&gt;
+&lt;li&gt;掌握Python的基本语法。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;参考书籍：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Deep Learning with Python Second Edition (主要讲tensorflow)&lt;/li&gt;
+&lt;li&gt;DIVE INTO DEEP LEARNING (主要讲pytorch)&lt;/li&gt;
+&lt;li&gt;了解CV与RoboMaster视觉组 (视觉组圣经)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;讲解人&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;计科2205 蔡明辰&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr /&gt;
+&lt;h1&gt;1. 计算机视觉深度学习入门&lt;/h1&gt;
+&lt;p&gt;计算机视觉是深度学习最早也是最重要的成功案例。当时一类叫做&lt;strong&gt;卷积神经网络&lt;/strong&gt;(Convolutional Neural Network, CNN)的神经网络模型在图像分类任务上取得了非常优秀的性能，从此计算机视觉领域进入了深度学习时代。&lt;strong&gt;卷积神经网络&lt;/strong&gt;是计算机视觉领域最常用的深度学习模型，也是我们主要学习的内容。&lt;/p&gt;
+&lt;h2&gt;1.1 从认识一个卷积神经网络(CNN)开始&lt;/h2&gt;
+&lt;p&gt;我们先来看一个简单的卷积神经网络模型示例，用语对MNIST数据集进行分类。虽然在上一讲我们已经用密链接网络做过，当时的测试精度约为97%，但现在我们用卷积神经网络来做，效果会更好。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import torch
+import torch.nn as nn
+
+class LeNet(nn.Module):
+    def __init__(self, num_classes=10):
+        super(LeNet, self).__init__()
+        # 卷积层1
+        self.conv1 = nn.Conv2d(in_channels=1, out_channels=6, kernel_size=5, stride=1, padding=2)
+        # 池化(汇聚)层1
+        self.pool1 = nn.MaxPool2d(kernel_size=2)
+        # 卷积层2
+        self.conv2 = nn.Conv2d(in_channels=6, out_channels=16, kernel_size=5, stride=1)
+        # 池化(汇聚)层2
+        self.pool2 = nn.MaxPool2d(kernel_size=2)
+        # 展开
+        self.flatten = nn.Flatten()
+        # 三个全连接层
+        self.fc1 = nn.Linear(in_features=16 * 5 * 5, out_features=120)
+        self.fc2 = nn.Linear(in_features=120, out_features=84)
+        self.fc3 = nn.Linear(in_features=84, out_features=num_classes)
+        # 声明两个激活函数
+        self.act = nn.ReLU(inplace=True)
+        self.softmax = nn.Softmax(dim=1)
+
+    def forward(self, x):
+        y = self.act(self.conv1(x))
+        y = self.pool1(y)
+        y = self.act(self.conv2(y))
+        y = self.pool2(y)
+        y = self.flatten(y)
+        y = self.act(self.fc1(y))
+        y = self.act(self.fc2(y))
+        y = self.fc3(y)
+        y = self.softmax(y)
+        return y
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;from torchsummary import summary
+
+# 创建模型实例
+model = LeNet(num_classes=10)
+
+# 将模型放到设备上 (CPU 或 GPU)
+device = torch.device(&quot;cuda&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
+model.to(device)
+
+# 使用 torchsummary 显示模型摘要
+summary(model, input_size=(1, 28, 28))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Conv2d-1            [-1, 6, 28, 28]             156
+              ReLU-2            [-1, 6, 28, 28]               0
+         MaxPool2d-3            [-1, 6, 14, 14]               0
+            Conv2d-4           [-1, 16, 10, 10]           2,416
+              ReLU-5           [-1, 16, 10, 10]               0
+         MaxPool2d-6             [-1, 16, 5, 5]               0
+           Flatten-7                  [-1, 400]               0
+            Linear-8                  [-1, 120]          48,120
+              ReLU-9                  [-1, 120]               0
+           Linear-10                   [-1, 84]          10,164
+             ReLU-11                   [-1, 84]               0
+           Linear-12                   [-1, 10]             850
+          Softmax-13                   [-1, 10]               0
+================================================================
+Total params: 61,706
+Trainable params: 61,706
+Non-trainable params: 0
+----------------------------------------------------------------
+Input size (MB): 0.00
+Forward/backward pass size (MB): 0.11
+Params size (MB): 0.24
+Estimated Total Size (MB): 0.35
+----------------------------------------------------------------
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;1.1.1 卷积运算&lt;/h3&gt;
+&lt;p&gt;在数学中，卷积的定义为：&lt;/p&gt;
+&lt;p&gt;$$
+(f*g)(t) = \int_{-\infty}^{\infty} f(t-\tau)g(\tau)d\tau
+$$&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;严格来说，卷积层是个错误的说法，因为它所表示的运算其实是&lt;strong&gt;互相关运算&lt;/strong&gt;，而不是卷积运算。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;./%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/7.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;二维互相关运算：0 x 0 + 1 x 1 + 3 x 2 + 4 x 3 = 19&lt;/p&gt;
+&lt;p&gt;所以，输出大小等于输入大小 $n_h \times n_w$ 减去卷积核大小 $k_h \times k_w$（边界效应），即：&lt;/p&gt;
+&lt;p&gt;$$
+(n_h - k_h + 1) \times (n_w - k_w + 1)
+$$&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;填充&lt;/strong&gt;：为了不让图像因为边缘效应经过深度网络层层越卷越小，通常会在图像边缘补零，即在图像边缘添加一些额外的像素，使得图像边缘的像素值与图像中心的像素值相等。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;卷积层当中也有偏置项，偏置项和卷积核内的参数都是需要训练的(&lt;s&gt;下面要考&lt;/s&gt;)。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;1.1.2 图像卷积&lt;/h3&gt;
+&lt;p&gt;Dense 层与卷积层的根本区别在于，Dense 层从输入特征空间中学到的是全局模式（比如对于 MNIST 数字，全局模式就是涉及所有像素的模式），而卷积层学到的是局部模式（对于图像来说，局部模式就是在输入图像的二维小窗口中发现的模式）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/5.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;卷积网络的两个重要特性：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;卷积神经网络学到的模式具有&lt;strong&gt;平移不变性&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;卷积神经网络可以学到&lt;strong&gt;模式的空间层次结构&lt;/strong&gt;(&lt;strong&gt;局部性&lt;/strong&gt;)。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;./%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/6.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;在MNIST的实例中，第一个卷积层接收的&lt;strong&gt;特征图&lt;/strong&gt;是(1,28,28)，并输出尺寸为(6,28,28)的特征图。这是为什么呢？&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;self.conv1 = nn.Conv2d(in_channels=1, out_channels=6, kernel_size=5, stride=1, padding=2)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;先分析一下这段代码的含义：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;in_channels=1 表示输入图像的通道数为1&lt;/li&gt;
+&lt;li&gt;out_channels=6 表示输出图像的通道数为6&lt;/li&gt;
+&lt;li&gt;kernel_size=5 表示卷积核的大小为5x5&lt;/li&gt;
+&lt;li&gt;stride=1 表示卷积步长为1&lt;/li&gt;
+&lt;li&gt;padding=2 表示填充2个像素&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;一共有6个卷积核，每个卷积核都要分别对输入图像卷积运算一次，所以输出图像的通道数为6。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这就是&lt;strong&gt;特征图&lt;/strong&gt;这一术语的含义：深度轴上每个维度都是一个特征(卷积核或叫滤波器filter)。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;因为卷积核大小为5x5，由于&lt;strong&gt;边界效应&lt;/strong&gt;，输出的特征图的边框会比输入图像小2个像素。但是因为又在周围填充了2个像素，所以输出的特征图的大小还是原来的大小。&lt;/p&gt;
+&lt;p&gt;所以输出尺寸为(6,28,28)。&lt;/p&gt;
+&lt;p&gt;理解了图像卷积的过程，我们现在还可以看看为什么第一层卷积的参数量是156。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;卷积核数量为6，卷积核的尺寸为(1,5,5)，所以参数量为5x5x1x6=150。&lt;/li&gt;
+&lt;li&gt;还有&lt;strong&gt;偏置项&lt;/strong&gt;，偏置项的数量为6，所以参数量为6。&lt;/li&gt;
+&lt;li&gt;所以一共为5x5x1x6+6=156。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;1.1.3 一个特殊的卷积核 1x1卷积&lt;/h3&gt;
+&lt;p&gt;1×1 卷积核丧失了影响高度和宽度的能力，但是它可以影响通道数。&lt;/p&gt;
+&lt;p&gt;我们可以将 1×1 卷积层看作在每个像素位置应用的全连接层，以 $c_i$ 个输入值转换为 $c_o$ 个输出值。因为这仍然是一个卷积层，所以跨像素的权重是一致的。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;当以每像素为基础应用时，1×1 卷积层相当于全连接层。&lt;/li&gt;
+&lt;li&gt;1×1 卷积层通常用于调整网络层的通道数量和控制模型复杂性。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;1.1.4 最大汇聚运算&lt;/h3&gt;
+&lt;p&gt;在上面那个卷积神经网络的例子中，你可能注意到每经过一次MaxPool2d层，输出图像的尺寸就会缩小一半。&lt;/p&gt;
+&lt;p&gt;这就是汇聚层(有的地方也叫&lt;strong&gt;池化层&lt;/strong&gt;)的作用：主动对特征图进行下采样。&lt;/p&gt;
+&lt;p&gt;但是为什么一定要下采样，直接用原图，保留较大特征图不好吗？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;减少需要处理的特征图的元素个数，减少参数量，防止过拟合。&lt;/li&gt;
+&lt;li&gt;让连续卷积层的观察窗口越来越大，从而引起空间滤波器的层次结构。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;self.pool1 = nn.MaxPool2d(kernel_size=2)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;一个池化窗口为2的池化层。&lt;/p&gt;
+&lt;p&gt;平均池化(Average Pooling)，最大池化(Max Pooling)都是池化层的一种。&lt;/p&gt;
+&lt;p&gt;但是往往最大池化(Max Pooling)的效果更好，因为它能够保留更多的特征，特征的最大值能够保留更多的信息。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/4.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;h3&gt;1.1.3 详解LeNet-5&lt;/h3&gt;
+&lt;p&gt;看到这里，其实上面那个LeNet-5模型的结构已经很清晰了。&lt;/p&gt;
+&lt;p&gt;LeNet-5是深度学习之父，Yann LeCun于1998年提出的最早的卷积神经网络，当时是用来解决手写体数字识别问题，其网络结构图如下所示，从LeNet-5开始，CNN就形成了若干个（卷积、池化）层+（用于特定任务的全连接层）的范式&lt;/p&gt;
+&lt;p&gt;在经过层层卷积池化后，最后连接一个flatten层，将二维特征图拉平，形成一条直线，最后输入到特定的全连接神经网络中。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;self.flatten = nn.Flatten()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;拉平后，先后输入120个神经元，84个神经元和10个神经元的密连接层中。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;self.fc1 = nn.Linear(in_features=16 * 5 * 5, out_features=120)
+self.fc2 = nn.Linear(in_features=120, out_features=84)
+self.fc3 = nn.Linear(in_features=84, out_features=num_classes)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;最后用softmax函数，求出每个输出的权重。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;在RoboMaster中，FYT视觉组用的识别装甲板数字的模型就是基于LeNet5的。LeNet5模型结构简单，参数少，适合在嵌入式设备上运行。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.bilibili.com/video/BV1wF411F7PU/?share_source=copy_web&amp;amp;vd_source=e4838a460d5e965db0426ab9bd050b56&quot;&gt;【Minecraft】红石卷积神经网络——原理&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;1.2 AlexNet改变世界的神经网络&lt;/h2&gt;
+&lt;p&gt;在LeNet-5的年代，深度学习并没有受到机器学习研究者的重视，理由是深度学习需要大量的计算量，参数多，需要大量的数据集供于训练。2012年，Alex Krizhevsky，Ilya Sutskever和Yoshua Bengio提出了AlexNet，并在同年的ImageNet图像分类竞赛上以压倒性的优势夺得了冠军。AlexNet获得成功的关键是&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ImageNet2012提供了大量的已标注数据集，使得大规模的网络有足够的数据进行学习&lt;/li&gt;
+&lt;li&gt;利用CUDA技术，Alex Krizhevsky和Ilya Sutskever实现了可以在GPU硬件上运行的深度卷积神经网络，而神经网络这种基于矩阵运算的模型能够在GPU上快速运算，突破了深度网络训练的瓶颈。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下图为LeNet-5（左）和AlexNet（右）的对比，AlexNet任然保留了N个卷积池化+全连接层的形式。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/3.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;1.3 &quot;猫狗大战&quot;——VGG16&lt;/h2&gt;
+&lt;p&gt;首先下载&lt;code&gt;Kaggle&lt;/code&gt;数据集，&lt;a href=&quot;https://www.kaggle.com/datasets/shaunthesheep/microsoft-catsvsdogs-dataset&quot;&gt;下载网址&lt;/a&gt;，点击Download -&amp;gt; 点击Download as Zip。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/15.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/m0_72845244/article/details/131965310?fromshare=blogdetail&amp;amp;sharetype=blogdetail&amp;amp;sharerId=131965310&amp;amp;sharerefer=PC&amp;amp;sharesource=m0_72845244&amp;amp;sharefrom=from_link&quot;&gt;博客链接&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;VGG16是2014年ImageNet图像分类竞赛的冠军，其结构如下图所示：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/8.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;就如 LeNet 和 AlexNet，卷积神经网络可以简化为的形式：&lt;/p&gt;
+&lt;p&gt;$$
+\text{神经网络} = N * (n * Conv + MaxPool) + DetectionHead\text{(检测头)}
+$$&lt;/p&gt;
+&lt;p&gt;VGG 网络就是这样，他们将 $(n * Conv + MaxPool)$ 作为一个基本模块（VGG 块），通过不同模块的拼接，设计了 VGG-16、VGG-19 等不同的网络，都取得了不错的效果。&lt;/p&gt;
+&lt;h1&gt;2. 计算机视觉深度学习进阶&lt;/h1&gt;
+&lt;h2&gt;2.1 三项基本的计算机视觉任务&lt;/h2&gt;
+&lt;h3&gt;2.1.1 图像分类&lt;/h3&gt;
+&lt;p&gt;为图像指定一个或多个标签。它既可以是单标签分类（一张图像只能属于一个类别，不属于其他类别），也可以是多标签分类（找出一张图像所属的所有类别）&lt;/p&gt;
+&lt;p&gt;例如：识别一张图片是猫还是狗(二分类)、识别一张手写数字图片是数字几(多分类)、识别一张RM机器人车辆图片是什么兵种什么阵营(多分类多标签)。&lt;/p&gt;
+&lt;h3&gt;2.1.2 图像分割&lt;/h3&gt;
+&lt;p&gt;将图像“分割”或“划分”成不同的区域，每个区域通常对应一个类别&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;h3&gt;2.1.3 目标检测&lt;/h3&gt;
+&lt;p&gt;在图像中感兴趣的目标(ROI)周围绘制矩形（称为边界框）并给出每个矩形对应的类别。&lt;/p&gt;
+&lt;p&gt;例如，检测相机采样的照片帧中，RM机器人车辆在二维图片中的位置和机器人的种类。如YOLO算法。&lt;/p&gt;
+&lt;h2&gt;2.2 现代卷积神经网络的架构模式&lt;/h2&gt;
+&lt;h3&gt;2.2.1 模型架构&lt;/h3&gt;
+&lt;p&gt;模型架构往往会决定成败。如果你选择了不合适的架构，那么模型可能会被次优指标拖累，再多的训练数据也无法改进它。相反，良好的模型架构可以加速学习过程，让模型可以有效利用训练数据，并降低对大型数据集的需求。一个良好的模型架构可以&lt;strong&gt;减小搜索空间&lt;/strong&gt;，或者&lt;strong&gt;更容易收敛到搜索空间的良好位置&lt;/strong&gt;。就像特征工程和数据收集一样，模型架构就是为了能够利用梯度下降&lt;strong&gt;更轻松地解决问题&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;模型架构更像是一门艺术，而不是一门科学。经验丰富的机器学习工程师能够在第一次尝试时就凭直觉拼凑出高性能的模型，而初学者往往很难构建出一个可用于训练的模型。这里的关键词是&lt;strong&gt;直觉&lt;/strong&gt;：没人可以向你清楚地解释什么有效、什么无效。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;可解释性差，黑盒&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;2.2.2 残差连接&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;传话游戏：y = f4(f3(f2(f1(x))))&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;如果函数链太长，那么这些噪声会盖过梯度信息，反向传播就会停止工作，模型也就根本无法训练。这就是**梯度消失（vanishing gradient）**问题。&lt;/p&gt;
+&lt;p&gt;当人们发现深度卷积网络能有效从图片中提取特征时，人们就致力于设计更深更大的神经网络。但是人们发现，深层的神经网络往往难以训练，其中最主要的原因就是梯度消失（某一层的梯度≈0）和梯度爆炸（某一层的梯度≈无穷大）。曾经，人们认为像VGG-19这样的网络已经是网络深度的极限了，这样的网络足以被称为深度卷积神经网络，直到Kaiming He, Shaoqing Ren and Jian Sun带着他们的&lt;strong&gt;ResNet&lt;/strong&gt;以难以置信的1202层、1940万参数（19.4M）炸裂登场。(中国人何恺明，他还发明了暗通道去雾算法)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/9.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;残差连接是一种常用的网络结构，它能够帮助深度神经网络更好地收敛，并减少梯度消失或爆炸的问题。残差连接的基本思想是，如果一个层的输出可以被其输入直接预测，那么就不要再加一层全连接层，而是直接将其输出作为下一层的输入。&lt;/p&gt;
+&lt;p&gt;下图为resnet-18结构图&lt;/p&gt;
+&lt;p&gt;&amp;lt;img src=&quot;./计算机视觉深度学习入门/11.png&quot; alt=&quot;resnet-18&quot; style=&quot;width:300px;&quot; /&amp;gt;&lt;/p&gt;
+&lt;p&gt;利用残差连接，你可以构建任意深度的神经网络，而无须担心梯度消失问题。&lt;/p&gt;
+&lt;h3&gt;2.2.3 批量规范化&lt;/h3&gt;
+&lt;p&gt;**规范化（normalization）**包含多种方法，旨在让机器学习模型看到的不同样本之间更加相似，这有助于模型学习，还有助于更好地泛化到新数据。&lt;/p&gt;
+&lt;p&gt;虽然原始论文指出，批量规范化的作用是“减少内部协变量偏移”，但没有人能真正确定批量规范化为何有效。有各种假说，但没有确定的说法。你会发现，深度学习中的许多事情是这样的——深度学习不是一门精确的科学，而是一组不断变化、根据经验得出的最佳工程实践，其中夹杂着不可靠的表述。&lt;/p&gt;
+&lt;h3&gt;2.2.4 深度可分离卷积&lt;/h3&gt;
+&lt;p&gt;如果我告诉你，有一种层可以替代 Conv2D 层，并可以让模型变得更加轻量（可训练权重参数更少）、更加精简（浮点运算更少），还可以将模型性能提高几个百分点，你觉得怎么样？我说的正是 深度可分离卷积（depthwise separable convolution）层的作用（Keras 中的
+SeparableConv2D 层）。这种层对输入的每个通道分别进行空间卷积，然后通过逐点卷积（1×1 卷积）将输出通道混合。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/12.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;深度可分离卷积：深度卷积 + 逐点卷积&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;与普通卷积相比，深度可分离卷积的参数更少，计算量也更小，同时具有相似的表示能力。它得到的是更小的模型，其收敛速度更快，更不容易出现过拟合。如果只用有限的数据从头开始训练一个小模型，这些优点就变得尤为重要。&lt;/p&gt;
+&lt;p&gt;以GoogleNet为代表的深度神经网络架构，其卷积层都采用深度可分离卷积。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Inception块&lt;/p&gt;
+&lt;p&gt;在GoogLeNet中，基本的卷积块被称为Inception块（Inception block）
+&lt;img src=&quot;./%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/13.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;GoogLeNet
+&lt;img src=&quot;./%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/14.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;3. YOLOv5实战&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/m0_72845244/article/details/131508466?fromshare=blogdetail&amp;amp;sharetype=blogdetail&amp;amp;sharerId=131508466&amp;amp;sharerefer=PC&amp;amp;sharesource=m0_72845244&amp;amp;sharefrom=from_link&quot;&gt;yolov5-5.0训练完整步骤&lt;/a&gt;&lt;/p&gt;
+&lt;h1&gt;4. 有关深度学习的社区&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.kaggle.com/&quot;&gt;Kaggle&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://huggingface.co/&quot;&gt;HuggingFace&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://modelscope.io/&quot;&gt;Modelscope&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/&quot;&gt;Github&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h1&gt;作业&lt;/h1&gt;
+&lt;h2&gt;1. 制作任意一种猫狗的二分类的网络（选做，可做可以不做）&lt;/h2&gt;
+&lt;p&gt;要求：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自己创建一个小型数据集，训练集和验证集合起来最多2500张照片。&lt;/li&gt;
+&lt;li&gt;使用数据增强，增强自己创建的小型数据集。&lt;/li&gt;
+&lt;li&gt;在Gitee提交python源代码或ipynb文件，&lt;strong&gt;训练结果曲线图&lt;/strong&gt;并制作&lt;strong&gt;训练混淆矩阵&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;2. YOLO动手操练&lt;/h2&gt;
+&lt;p&gt;YOLO目标检测是每个RMer小白学习的必经之路，请同学们自学YOLOv5算法的部署，部署YOLOv5目标检测算法。&lt;/p&gt;
+&lt;p&gt;要求：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在自己电脑上配置好深度学习环境，要求使用&lt;strong&gt;GPU推理&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;使用官方模型权重&lt;/li&gt;
+&lt;li&gt;在Gitee中提交随意一个推理视频&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;截止日期：看群通知&lt;/p&gt;
+</content:encoded></item></channel></rss>
