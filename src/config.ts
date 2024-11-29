@@ -56,8 +56,8 @@ export const profileConfig: ProfileConfig = {
   bio: '一个不想拯救世界的技术宅',
   links: [
     {
-      name: 'Twitter',
-      icon: 'fa6-brands:twitter',       // Visit https://icones.js.org/ for icon codes
+      name: 'csdn',
+      icon: 'simple-icons:csdn',       // Visit https://icones.js.org/ for icon codes
                                         // You will need to install the corresponding icon set if it's not already included
                                         // `pnpm add @iconify-json/<icon-set-name>`
       url: 'https://blog.csdn.net/m0_72845244?spm=1000.2115.3001.5343', 
