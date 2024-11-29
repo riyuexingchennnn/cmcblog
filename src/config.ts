@@ -43,8 +43,8 @@ export const navBarConfig: NavBarConfig = {
     LinkPreset.Archive,
     LinkPreset.About,
     {
-      name: 'GitHub',
-      url: 'https://github.com/riyuexingchennnn',     // Internal links should not include the base path, as it is automatically added
+      name: '旧博客',
+      url: 'https://wangchuanfu294.github.io',     // Internal links should not include the base path, as it is automatically added
       external: true,                               // Show an external link icon and will open in a new tab
     },
   ],
@@ -57,15 +57,15 @@ export const profileConfig: ProfileConfig = {
   links: [
     {
       name: 'Twitter',
-      icon: 'fa6-brands:twitter',       // Visit https://icones.js.org/ for icon codes
+      icon: 'fa6-brands:csdn',       // Visit https://icones.js.org/ for icon codes
                                         // You will need to install the corresponding icon set if it's not already included
                                         // `pnpm add @iconify-json/<icon-set-name>`
-      url: '', // 待定
+      url: 'https://blog.csdn.net/m0_72845244?spm=1000.2115.3001.5343', 
     },
     {
-      name: 'Steam',
-      icon: 'fa6-brands:steam',
-      url: '', // 待定
+      name: 'bilibili',
+      icon: 'fa6-brands:bilibili',
+      url: 'https://space.bilibili.com/2058763975?spm_id_from=333.1007.0.0', 
     },
     {
       name: 'GitHub',
