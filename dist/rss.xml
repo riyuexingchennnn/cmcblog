@@ -576,7 +576,7 @@ print(f&quot;测试集样本数: {len(test_dataset)}&quot;)
 &lt;p&gt;安装成功后在终端使⽤&lt;code&gt;nvidia-smi&lt;/code&gt;可以看到GPU信息，看到就算安装成功&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;nvidia-smi
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/8.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/5.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 &lt;p&gt;这⾥显⽰的CUDA版本是最⾼⽀持版本，安装个⽐这低的就⾏(但是也不能太低，下⾯会讲)。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;./%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/7.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 &lt;p&gt;如果想要更改显卡驱动，也可以在这⾥改。&lt;/p&gt;
@@ -648,7 +648,7 @@ conda activate XXX # 进入虚拟环境
 &lt;li&gt;要求使用&lt;strong&gt;多层感知机MLP&lt;/strong&gt;模型。&lt;/li&gt;
 &lt;li&gt;在Gitee中提交python代码或或ipynb文件和训练结果(曲线图)。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;截止日期：看群通知。&lt;/p&gt;
+&lt;p&gt;截止日期：12月7日（周六）&lt;/p&gt;
 </content:encoded></item><item><title>计算机视觉深度学习入门</title><link>https://riyuexingchennnn.github.io/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/</link><guid isPermaLink="true">https://riyuexingchennnn.github.io/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/</guid><pubDate>Wed, 27 Nov 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;前言&lt;/h1&gt;
 &lt;p&gt;FYT视觉组培训，针对RoboMaster的深度学习速成课。&lt;/p&gt;
 &lt;p&gt;预备知识：&lt;/p&gt;
@@ -914,14 +914,15 @@ SeparableConv2D 层）。这种层对输入的每个通道分别进行空间卷�
 &lt;/ul&gt;
 &lt;hr /&gt;
 &lt;h1&gt;作业&lt;/h1&gt;
-&lt;h2&gt;1. 制作任意一种猫狗的二分类的网络（选做，可做可以不做）&lt;/h2&gt;
+&lt;h2&gt;1. 使用C++部署手写数字识别的模型&lt;/h2&gt;
+&lt;p&gt;训练过程随意，训练模型架构随意，可以使用MLP或LeNet-5。主要考验模型的部署和使用。&lt;/p&gt;
 &lt;p&gt;要求：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;自己创建一个小型数据集，训练集和验证集合起来最多2500张照片。&lt;/li&gt;
-&lt;li&gt;使用数据增强，增强自己创建的小型数据集。&lt;/li&gt;
-&lt;li&gt;在Gitee提交python源代码或ipynb文件，&lt;strong&gt;训练结果曲线图&lt;/strong&gt;并制作&lt;strong&gt;训练混淆矩阵&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;使用&lt;strong&gt;C++&lt;strong&gt;部署，模型转成&lt;/strong&gt;onnx格式&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;在Gitee中提交C++部署代码，以及输入一张图片运行的结果图。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;2. YOLO动手操练&lt;/h2&gt;
+&lt;p&gt;截止日期：12月7日（周六）&lt;/p&gt;
+&lt;h2&gt;2. YOLO动手操练(选做，可做可不做)&lt;/h2&gt;
 &lt;p&gt;YOLO目标检测是每个RMer小白学习的必经之路，请同学们自学YOLOv5算法的部署，部署YOLOv5目标检测算法。&lt;/p&gt;
 &lt;p&gt;要求：&lt;/p&gt;
 &lt;ul&gt;
@@ -929,5 +930,5 @@ SeparableConv2D 层）。这种层对输入的每个通道分别进行空间卷�
 &lt;li&gt;使用官方模型权重&lt;/li&gt;
 &lt;li&gt;在Gitee中提交随意一个推理视频&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;截止日期：看群通知&lt;/p&gt;
+&lt;p&gt;截止日期：12月7日（周六）&lt;/p&gt;
 </content:encoded></item></channel></rss>
