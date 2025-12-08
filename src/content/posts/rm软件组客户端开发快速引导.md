@@ -26,6 +26,13 @@ lang: ''
 
     1. 为能量机关和雷达站提供仿真视频
 
+
+# 什么人推荐加入rm软件组
+
+1. 计算机专业，想学习计算机客户端软件设计的原理，了解网络请求，业务处理的流程。
+2. 准备找工作的同学，此项目完全对标dji的rm专招通道的客户端开发岗位，并且提供转正机会，机不可失。
+3. 学习过unity游戏开发的，做过Android Studio项目或者开发过某种客户端的同学。
+
 # 快速开始
 
 只学习一个开发工具，一种语言，快速上手客户端开发
@@ -74,7 +81,7 @@ lang: ''
 ![](./rm软件组客户端开发快速引导/2.png)
 ![](./rm软件组客户端开发快速引导/3.png)
 
-等待vscode输出框安装完所有环境后打开代码，检查是否有代码补全提示和语法报错提醒，有即为正常
+打开unity项目和对应的vscode代码，等待vscode输出框安装完所有环境后打开代码，检查是否有代码补全提示和语法报错提醒，有即为正常
 
 ![](./rm软件组客户端开发快速引导/4.png)
 
@@ -88,8 +95,13 @@ lang: ''
 重点关注：
 
 - unity 引擎使用
-- C#代码编写
+- C# 代码编写
 - UGUI
+
+少量关注：
+
+- ShaderGraph
+- Animator
 
 > 如果你有良好的编程习惯和基础，unity引擎对你而言，就和玩具差不多
 
@@ -174,7 +186,7 @@ lang: ''
     protoc --csharp_out=. rm_messages.proto
     ```
 
-## Unity 、mqtt 与 protobuf
+## Unity 与 mqtt protobuf
 
 刚刚导入的RmMessages.cs会遇到一个Google.Protobuf依赖不匹配的问题，推荐到Nuget上下载对应3.12.4版本的dll库
 
@@ -182,11 +194,11 @@ https://nuget.info/packages/Google.Protobuf/3.12.4
 
 ![](./rm软件组客户端开发快速引导/6.png)
 
-> unity就是这样不好，在unity6之前用的东西全部都很久，unity2022依然还在使用C#8的版本，很多C#新特性用不了，比如foreach
+> unity就是这样不好，在unity6之前用的东西全部都很旧，unity2022依然还在使用C#8的版本，很多C#新特性用不了，比如foreach
 
 https://nuget.info/packages/MQTTnet/4.3.3.952
 
-同理，下载MQTTnet.dll，放到unity的plugins目录
+同理，下载MQTTnet.dll，放到unity的Assets/Plugins目录
 
 # 正式开发
 
