@@ -123,7 +123,7 @@ lang: ''
     cnpm install -g pnpm
     ```
 
-3. 编译运行
+3. 安装运行
 
     ```bash
     pnpm install
@@ -174,7 +174,7 @@ lang: ''
     protoc --csharp_out=. rm_messages.proto
     ```
 
-## Unity 与 protobuf
+## Unity 、mqtt 与 protobuf
 
 刚刚导入的RmMessages.cs会遇到一个Google.Protobuf依赖不匹配的问题，推荐到Nuget上下载对应3.12.4版本的dll库
 
@@ -182,15 +182,262 @@ https://nuget.info/packages/Google.Protobuf/3.12.4
 
 ![](./rm软件组客户端开发快速引导/6.png)
 
-> unity就是这样不好，在unity6之前用的东西全部都很久，C#很多新特性用不了，比如foreach
+> unity就是这样不好，在unity6之前用的东西全部都很久，unity2022依然还在使用C#8的版本，很多C#新特性用不了，比如foreach
+
+https://nuget.info/packages/MQTTnet/4.3.3.952
+
+同理，下载MQTTnet.dll，放到unity的plugins目录
 
 # 正式开发
 
 ## UItoolkit
 
-### 示例：编译第一个页面 游戏开始
+### 示例：编写第一个页面 开始界面
 
 ## mqtt
 
-### 示例: 编写第一个mqtt接口 GameStatus
+### 示例：编写第一个mqtt接口 GameStatus
+
+参考Robomaster官方附录三，利用MQTTnet库编写一个脚本main.cs
+
+```bash
+using MQTTnet;
+using MQTTnet.Client;
+using MQTTnet.Protocol;
+using System;
+using System.Threading.Tasks;
+using UnityEngine;
+using Google.Protobuf;
+using RmMessages;
+
+/// <summary>
+/// GameStatus MQTT 客户端
+/// 用于实时接收服务器发送的 GameStatus 消息
+/// </summary>
+public class GameStatusReceiver : MonoBehaviour
+{
+    [Header("MQTT 连接配置")]
+    [SerializeField] private string brokerHost = "127.0.0.1";
+    [SerializeField] private int brokerPort = 3333;
+    [SerializeField] private string clientId = "rm_custom_client";
+    [SerializeField] private string gameStatusTopic = "GameStatus";
+
+    [Header("状态显示")]
+    [SerializeField] private bool showDebugInfo = true;
+
+    // MQTT 客户端
+    private IMqttClient _mqttClient;
+
+    // 当前游戏状态
+    private GameStatus _currentGameStatus;
+    public GameStatus CurrentGameStatus => _currentGameStatus;
+
+    // 事件：当 GameStatus 更新时触发
+    public event Action<GameStatus> OnGameStatusUpdated;
+
+    // 线程安全的消息队列
+    private readonly System.Collections.Concurrent.ConcurrentQueue<GameStatus> _messageQueue
+        = new System.Collections.Concurrent.ConcurrentQueue<GameStatus>();
+
+    private void Start()
+    {
+        _currentGameStatus = new GameStatus();
+        ConnectToMqttBroker();
+    }
+
+    private void Update()
+    {
+        // 在主线程中处理接收到的消息
+        while (_messageQueue.TryDequeue(out GameStatus status))
+        {
+            _currentGameStatus = status;
+            OnGameStatusUpdated?.Invoke(status);
+
+            if (showDebugInfo)
+            {
+                LogGameStatus(status);
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        Disconnect();
+    }
+
+    private void OnApplicationQuit()
+    {
+        Disconnect();
+    }
+
+    /// <summary>
+    /// 连接到 MQTT Broker
+    /// </summary>
+    public async void ConnectToMqttBroker()
+    {
+        try
+        {
+            Debug.Log($"[GameStatusReceiver] 正在连接到 MQTT Broker: {brokerHost}:{brokerPort}");
+
+            // 客户端选项生成器
+            var options = new MqttClientOptionsBuilder()
+                .WithClientId(clientId)
+                .WithTcpServer(brokerHost, brokerPort)
+                .Build();
+
+            // 创建客户端
+            _mqttClient = new MqttFactory().CreateMqttClient();
+
+            // 监测客户端 连接/断开连接 完成
+            _mqttClient.ConnectedAsync += OnClientConnected;
+            _mqttClient.DisconnectedAsync += OnClientDisconnected;
+
+            // 客户端接收到消息
+            _mqttClient.ApplicationMessageReceivedAsync += OnMessageReceived;
+
+            // 连接服务器
+            await _mqttClient.ConnectAsync(options);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[GameStatusReceiver] 连接异常: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// 连接完成回调
+    /// </summary>
+    private Task OnClientConnected(MqttClientConnectedEventArgs args)
+    {
+        Debug.Log("[GameStatusReceiver] 成功连接到 MQTT Broker");
+
+        // 订阅 GameStatus 主题
+        Subscribe(gameStatusTopic);
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 断开连接回调
+    /// </summary>
+    private Task OnClientDisconnected(MqttClientDisconnectedEventArgs args)
+    {
+        Debug.Log("[GameStatusReceiver] 已断开 MQTT 连接");
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 接收到消息回调
+    /// </summary>
+    private Task OnMessageReceived(MqttApplicationMessageReceivedEventArgs args)
+    {
+        try
+        {
+            string topic = args.ApplicationMessage.Topic;
+            byte[] payload = args.ApplicationMessage.PayloadSegment.ToArray();
+
+            if (showDebugInfo)
+            {
+                Debug.Log($"[GameStatusReceiver] 收到消息 topic: {topic}");
+            }
+
+            // 如果是 GameStatus 主题，解析 Protobuf 消息
+            if (topic == gameStatusTopic)
+            {
+                GameStatus status = GameStatus.Parser.ParseFrom(payload);
+                _messageQueue.Enqueue(status);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[GameStatusReceiver] 解析消息失败: {ex.Message}");
+        }
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 订阅主题
+    /// </summary>
+    public void Subscribe(string topic)
+    {
+        _mqttClient?.SubscribeAsync(new MqttTopicFilterBuilder().WithTopic(topic).Build());
+        Debug.Log($"[GameStatusReceiver] 已订阅主题: {topic}");
+    }
+
+    /// <summary>
+    /// 发布字节消息
+    /// </summary>
+    public void PublishBytesMsg(string topic, byte[] message,
+        MqttQualityOfServiceLevel level = MqttQualityOfServiceLevel.ExactlyOnce,
+        bool isRetain = false)
+    {
+        _mqttClient?.PublishBinaryAsync(topic, message, level, isRetain);
+    }
+
+    /// <summary>
+    /// 断开 MQTT 连接
+    /// </summary>
+    public async void Disconnect()
+    {
+        if (_mqttClient != null && _mqttClient.IsConnected)
+        {
+            try
+            {
+                await _mqttClient.DisconnectAsync();
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[GameStatusReceiver] 断开连接时出错: {ex.Message}");
+            }
+        }
+    }
+
+    /// <summary>
+    /// 输出 GameStatus 调试信息
+    /// </summary>
+    private void LogGameStatus(GameStatus status)
+    {
+        string stageDesc = status.CurrentStage switch
+        {
+            0 => "未开始比赛",
+            1 => "准备阶段",
+            2 => "裁判系统自检",
+            3 => "五秒倒计时",
+            4 => "比赛中",
+            5 => "比赛结算中",
+            _ => "未知阶段"
+        };
+
+        Debug.Log($"[GameStatus] 第 {status.CurrentRound}/{status.TotalRounds} 局 | " +
+                  $"红方: {status.RedScore} vs 蓝方: {status.BlueScore} | " +
+                  $"阶段: {stageDesc} | " +
+                  $"倒计时: {status.StageCountdownSec}s | " +
+                  $"已用时: {status.StageElapsedSec}s | " +
+                  $"暂停: {status.IsPaused}");
+    }
+
+    /// <summary>
+    /// 获取当前阶段描述
+    /// </summary>
+    public string GetCurrentStageDescription()
+    {
+        return _currentGameStatus?.CurrentStage switch
+        {
+            0 => "未开始比赛",
+            1 => "准备阶段",
+            2 => "裁判系统自检",
+            3 => "五秒倒计时",
+            4 => "比赛中",
+            5 => "比赛结算中",
+            _ => "未知阶段"
+        };
+    }
+}
+```
+
+运行unity，打开Mock测试端，发送GameStatus消息。如果在unity中看到有收到这个话题消息，即为成功
+
+![](./rm软件组客户端开发快速引导/7.png)
+
 
