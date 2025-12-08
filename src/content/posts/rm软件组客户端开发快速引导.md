@@ -91,7 +91,7 @@ lang: ''
 - C#代码编写
 - UGUI
 
-> 如果你有良好的编程习惯和基础，unity引擎对你而言，就是一个玩具
+> 如果你有良好的编程习惯和基础，unity引擎对你而言，就和玩具差不多
 
 ## Mock调试
 
@@ -103,3 +103,46 @@ lang: ''
 代码：https://github.com/stydxm/RMMock
 
 可以先使用开源，然后在此基础上逐步建立我们自己的rm_mock仓库
+
+## Protocol Buffers 入门
+
+官方文档是最好的学习资料：https://protobuf.com.cn/overview/
+
+1. 检查自己电脑的proto编译器的版本
+
+    ```
+    protoc --version
+    ```
+
+    如果你的电脑显示的版本为`libprotoc 3.12.4`。请注意这是非常老的版本，这个通常是由apt安装的，需要安装新版本protoc(旧的可以不用卸载)
+
+2. 安装最新的protoc
+
+    https://github.com/protocolbuffers/protobuf/releases
+
+    ![](./rm软件组客户端开发快速引导/5.png)
+
+    解压后复制到/user/local目录中去
+
+    ```bash
+    sudo cp bin/protoc /usr/local/bin/
+    sudo cp -r include/* /usr/local/include/
+    ```
+
+    > /usr/local/bin 的优先级高于 /usr/bin
+    所以你的系统会自动使用新的 protoc
+
+    再次检查版本，就可以看到`libprotoc 33.2`
+
+    ⚠️ 注意：不推荐使用export路径的方式加到bashrc里去，因为这只对shell环境有用，容易出其他问题。
+
+3. Protocol Buffer 基础：C#
+
+    [官方文档](https://protobuf.com.cn/getting-started/csharptutorial/)
+
+    下载我整理的proto文件<a href="/files/rm_messages.proto" download="rm_messages.proto">rm_messages.proto</a>
+
+    运行下面指令，会得到一个RmMessages.cs的文件
+    ```bash
+    protoc --csharp_out=. rm_messages.proto
+    ```
