@@ -102,7 +102,33 @@ lang: ''
 - RMMock-自定义客户端协议的第三方后端实现开源https://bbs.robomaster.com/article/1296451
 代码：https://github.com/stydxm/RMMock
 
-可以先使用开源，然后在此基础上逐步建立我们自己的rm_mock仓库
+可以先使用开源，推荐使用第一个，然后在此基础上逐步建立我们自己的rm_mock仓库
+
+### SharkDataSever开源
+
+> 如果你很熟悉Vue，你可以不用采取我的方法，直接跳过此部分教学
+
+1. 使用鱼香ROS一键安装，选择 数字6 NodeJS环境
+    ```bash
+    wget http://fishros.com/install -O fishros && . fishros
+    ```
+    然后使用`node --version`查看nodejs版本，我的版本是`v18.20.8`
+
+    如何使用和我一样的版本？安装node版本管理工具nvm，安装18选择18
+
+2. 然后依次安装cnpm、pnpm
+
+    ```bash
+    npm install -g cnpm --registry=https://registry.npmmirror.com
+    cnpm install -g pnpm
+    ```
+
+3. 编译运行
+
+    ```bash
+    pnpm install
+    pnpm run mqtt-visual
+    ```
 
 ## Protocol Buffers 入门
 
@@ -111,12 +137,13 @@ lang: ''
 1. 检查自己电脑的proto编译器的版本
 
     ```
+    sudo apt install -y protobuf-compiler
     protoc --version
     ```
 
-    如果你的电脑显示的版本为`libprotoc 3.12.4`。请注意这是非常老的版本，这个通常是由apt安装的，需要安装新版本protoc(旧的可以不用卸载)
+    如果你的电脑显示的版本为`libprotoc 3.12.4`。请注意这是非常老的版本，这个通常是由apt安装的，可以选择安装新版本protoc(旧的可以不用卸载)
 
-2. 安装最新的protoc
+2. 安装最新的protoc (⚠️实测不推荐，unity不支持新版)
 
     https://github.com/protocolbuffers/protobuf/releases
 
@@ -146,3 +173,24 @@ lang: ''
     ```bash
     protoc --csharp_out=. rm_messages.proto
     ```
+
+## Unity 与 protobuf
+
+刚刚导入的RmMessages.cs会遇到一个Google.Protobuf依赖不匹配的问题，推荐到Nuget上下载对应3.12.4版本的dll库
+
+https://nuget.info/packages/Google.Protobuf/3.12.4
+
+![](./rm软件组客户端开发快速引导/6.png)
+
+> unity就是这样不好，在unity6之前用的东西全部都很久，C#很多新特性用不了，比如foreach
+
+# 正式开发
+
+## UItoolkit
+
+### 示例：编译第一个页面 游戏开始
+
+## mqtt
+
+### 示例: 编写第一个mqtt接口 GameStatus
+
