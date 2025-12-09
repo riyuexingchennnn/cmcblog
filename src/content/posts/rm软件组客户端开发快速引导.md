@@ -200,11 +200,65 @@ https://nuget.info/packages/MQTTnet/4.3.3.952
 
 同理，下载MQTTnet.dll，放到unity的Assets/Plugins目录
 
+# 官方项目解包
+
+开发客户端必须要UI美术资源，这里我们作为程序员只能利用官方UI资源。
+
+推荐使用[RipperAsset](https://github.com/AssetRipper/AssetRipper/releases)进行解包
+
+解包后的项目，有全部的UI和C#代码，但是缺少关键的xuml文件，加上原版官方没有使用到mqtt和protobuf，所以仍需自己重头开发。
+
+我的解包(如果你需要，请联系我)：https://gitee.com/caimingchen0602/export-project
+
 # 正式开发
 
-## UItoolkit
+## 前置知识
+
+- 熟练使用unity
+- 了解web三件套程序的编写
+- 了解http、mqtt、websocket通信协议流程，知道TCP/UDP通信原理
+
+## UI Toolkit
+
+为什么选择UI Toolkit而不选择UGUI？
+
+UI Toolkit更符合客户端开发，性能好(UGUI每个UI都是一个GameObject，因此会有大量的GameObject)，代码清晰。而UGUI更符合game-only
 
 ### 示例：编写第一个页面 开始界面
+
+![](./rm软件组客户端开发快速引导/8.png)
+
+1. 方法一：在Project中create一个UIDocument，双击点开进入UIBuilder，直接通过UIBuilder可视化界面编辑UI界面。UI元素的标签和样式全都自动生成到uxml文件之中，新手友好，但是不直观。
+2. 方法二：创建一个uxml文件(相当于xml)和uss文件(相当于css文件)，直接编写标签和样式代码。新手不友好，各种样式类选择器优先级复杂难记，相对直观，容易管理。
+
+编写StartMenuController.cs代码，拖放到UIDocument物体上。
+
+(页面设计十分类似安卓原生开发)
+
+```cs
+using UnityEngine;
+using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
+
+public class StartMenuController : MonoBehaviour
+{
+    private void OnEnable()
+    {
+        var root = GetComponent<UIDocument>().rootVisualElement;
+
+        Button startButton = root.Q<Button>("start-button"); // 使用按钮的名字或 class
+
+        startButton.clicked += StartGame;
+    }
+
+    void StartGame()
+    {
+        Debug.Log("游戏开始！");
+        // 例如：加载场景
+        SceneManager.LoadScene("level 1");
+    }
+}
+```
 
 ## mqtt
 
@@ -212,7 +266,7 @@ https://nuget.info/packages/MQTTnet/4.3.3.952
 
 参考Robomaster官方附录三，利用MQTTnet库编写一个脚本main.cs
 
-```bash
+```cs
 using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Protocol;
