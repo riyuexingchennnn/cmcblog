@@ -155,11 +155,21 @@ lang: ''
     cnpm install -g pnpm
     ```
 
-3. 安装运行
+3. 安装，运行mqtt可视化Vue界面
 
     ```bash
     pnpm install
     pnpm run mqtt-visual
+    ```
+
+4. 运行图传视频流
+
+    将目标视频文件通过`openshot`转成h265格式的视频，播放更流畅，帧率稳定。放入VideoSource文件夹中。
+
+    ![](./rm软件组客户端开发快速引导/12.png)
+
+    ```bash
+    pnpm run udp
     ```
 
 ## Protocol Buffers 入门
@@ -230,6 +240,8 @@ https://nuget.info/packages/MQTTnet/4.3.3.952
 
 我的解包(如果你需要，请联系我)：https://gitee.com/caimingchen0602/export-project
 
+> 这种解包再复刻项目的过程叫做**逆向开发**
+
 # 正式开发
 
 ## 前置知识
@@ -280,9 +292,9 @@ public class StartMenuController : MonoBehaviour
 }
 ```
 
-## mqtt
+## MQTT通信
 
-### 示例：编写第一个mqtt接口 GameStatus
+### 示例：编写第一个MQTT接口 GameStatus
 
 参考Robomaster官方附录三，利用MQTTnet库编写一个脚本main.cs
 
@@ -526,4 +538,28 @@ public class GameStatusReceiver : MonoBehaviour
 
 ![](./rm软件组客户端开发快速引导/7.png)
 
+## UDP 图传视频流
 
+### FFmpeg
+
+服务器发送的是 HEVC (H.265) 编码的视频流，不是 JPEG。每个 UDP 包有 8 字节的自定义协议头。
+
+Unity 原生不支持 HEVC 解码，我们可以使用 FFmpeg 可执行文件，通过启动 **FFmpeg 进程**来解码 HEVC 流
+
+先确保赋有权限
+
+```bash
+chmod +x rm_custom_client/Assets/StreamingAssets/RockVR/FFmpeg/linux/ffmpeg
+```
+
+### UDP
+
+![](./rm软件组客户端开发快速引导/13.png)
+
+根据官方说明，我们接受udp数据包，要按顺序拼接组装帧数据
+
+所以最终的流程是：
+
+1. 把接收到的 HEVC 数据通过管道传给 FFmpeg
+2. FFmpeg 解码后输出原始 RGB 数据
+3. 把 RGB 数据写入 Texture2D 显示
