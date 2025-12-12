@@ -33,6 +33,8 @@ lang: ''
 
     我的开源：https://fyt-vision.coding.net/p/fyt2025/d/rm_unity/git
 
+    rv仿真开源：https://gitlab.com/rm_vision/rm_vision_simulator
+
 ## 自定义客户端要有多自定义
 
 1. **上方显示敌方机器人血量** ( ⭐⭐⭐ )
@@ -61,6 +63,8 @@ lang: ''
 
 ### Unity配置
 
+[Unity6.3LTS官方文档](https://docs.unity3d.com/6000.3/Documentation/Manual/first-time-user.html)
+
 - **windows**
 
     windows安装比较简单，unity适配也比较好，**较推荐**，适合新手。
@@ -69,7 +73,9 @@ lang: ''
 
 - **ubuntu**
 
-    1. 按顺序安装好unityhub，安装好Unity 2022.3 LTS(2022.3.62f3) Editor, 注册好unity账户，添加Personal License
+    1. 按顺序安装好unityhub，安装好Unity6.3 LTS(6000.3.1f1) Editor, 注册好unity账户，添加Personal License
+
+        > 如果在下载unity编辑器的时候出现了`下载失败: Validation Failed`，检查clash有没有开TUN虚拟网卡模式
 
     2. 安装一个unity的linux补丁工具，解决引擎卡顿问题。
         ```bash
@@ -80,18 +86,6 @@ lang: ''
 
     3. 打开引擎新建一个项目，选择 Edit->Preferences->External Tools->External Scripts Editor，选成你想要的vscode编辑器
 
-
-### C# 配置
-
-1. 安装 .NET SDK
-    ```bash
-    sudo apt install dotnet-sdk-8.0
-    ```
-
-2. 检查net版本
-    ```bash
-    dotnet --version # 检查版本
-    ```
 
 ### Vscode 配置
 
@@ -117,6 +111,7 @@ lang: ''
 - unity 引擎使用
 - C# 代码编写
 - UGUI
+- Input System
 
 少量关注：
 
@@ -218,13 +213,26 @@ lang: ''
 
 ## Unity 与 mqtt protobuf
 
-刚刚导入的RmMessages.cs会遇到一个Google.Protobuf依赖不匹配的问题，推荐到Nuget上下载对应3.12.4版本的dll库
+刚刚导入的RmMessages.cs会遇到一个Google.Protobuf依赖不匹配的问题，推荐到Nuget上下载对应3.12.4版本的dll库(选用老版本保证兼容性)
+
+### 方法一：使用Nuget包管理工具安装dll库 (⭐推荐)
+
+1. unity安装Nuget包管理工具
+
+   - 先到这个链接下载最新的**unitypackage**文件 https://github.com/GlitchEnzo/NuGetForUnity/releases 拖入unity中import
+   - 重启unity后，引擎上方会多一个Nuget选项
+
+2. 打开 Nuget Manager，搜索Google.Protobuf，选择**对应3.12.4版本**，然后install，新安装的dll会出现在Assets/Packages里
+
+同理安装**MQTTnet 4.3.3.952**
+
+### 方法二：第三方安装
 
 https://nuget.info/packages/Google.Protobuf/3.12.4
 
 ![](./rm软件组客户端开发快速引导/6.png)
 
-> unity就是这样不好，在unity6之前用的东西全部都很旧，unity2022依然还在使用C#8的版本，很多C#新特性用不了，比如foreach
+然后下载下来，拖到unity中Assets/Plugins目录下即可
 
 https://nuget.info/packages/MQTTnet/4.3.3.952
 
@@ -545,6 +553,10 @@ public class GameStatusReceiver : MonoBehaviour
 服务器发送的是 HEVC (H.265) 编码的视频流，不是 JPEG。每个 UDP 包有 8 字节的自定义协议头。
 
 Unity 原生不支持 HEVC 解码，我们可以使用 FFmpeg 可执行文件，通过启动 **FFmpeg 进程**来解码 HEVC 流
+
+linux ffmpeg下载: https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
+
+windows ffmpeg下载：https://www.gyan.dev/ffmpeg/builds/  下载 ffmpeg-release-essentials.zip 解压后找到 bin/ffmpeg.exe
 
 先确保赋有权限
 
