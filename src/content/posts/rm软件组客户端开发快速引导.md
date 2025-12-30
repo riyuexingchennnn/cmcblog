@@ -42,7 +42,7 @@ lang: ''
    - 方案一：使用yolo算法对图传帧处理，识别敌方机器人，在上方绘制血量UI
    - 方案二：利用视觉计算的敌方机器人位置透视变换到图传视角，在上方绘制血量UI
 
-    ![](./rm软件组客户端开发快速引导/9.jpg)
+    ![](./rm软件组客户端开发快速引导/9.png)
 
 2. **超级赛场回放** ( ⭐⭐⭐ )
 
@@ -51,10 +51,10 @@ lang: ''
 
 # 什么人推荐加入rm软件组
 
-1. 计算机专业，想学习计算机客户端软件设计的原理，了解网络请求，业务处理的流程。
+1. 计算机or软工专业，想学习计算机客户端软件设计的原理，了解网络请求，业务处理的流程。
 2. 准备找工作的同学，此项目完全对标dji的rm专招通道的客户端开发岗位，并且提供转正机会，机不可失。
 
-    ![](./rm软件组客户端开发快速引导/14.jpg)
+    ![](./rm软件组客户端开发快速引导/14.png)
 
 3. 学习过unity游戏开发的，做过Android Studio项目或者开发过某种客户端的同学。
 
@@ -247,7 +247,7 @@ https://nuget.info/packages/MQTTnet/4.3.3.952
 
 推荐使用[RipperAsset](https://github.com/AssetRipper/AssetRipper/releases)进行解包
 
-解包后的项目，有全部的UI和C#代码，但是缺少关键的xuml文件，加上原版官方没有使用到mqtt和protobuf，所以仍需自己重头开发。
+解包后的项目，有全部的UI和C#代码，但是缺少关键的xuml文件，加上2025年官方没有使用到mqtt和protobuf，所以仍需自己重头开发。
 
 我的解包(如果你需要，请联系我)：https://gitee.com/caimingchen0602/export-project
 
@@ -578,3 +578,12 @@ chmod +x rm_custom_client/Assets/StreamingAssets/RockVR/FFmpeg/linux/ffmpeg
 1. 把接收到的 HEVC 数据通过管道传给 FFmpeg
 2. FFmpeg 解码后输出原始 RGB 数据
 3. 把 RGB 数据写入 Texture2D 显示
+
+## Unity Sentis with yolov5
+
+在unity6.3LTS中，已经弃用了Sentis库，改成com.unity.ai.inference
+
+打开Package Manager > 选择左上角加号 > 选择Add > 输入com.unity.ai.inference
+
+[依旧官方文档](https://docs.unity3d.com/Packages/com.unity.ai.inference@2.4/manual/index.html)
+

@@ -1,4 +1,525 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>日月星辰</title><description>个人博客</description><link>https://riyuexingchennnn.github.io/</link><language>zh_CN</language><item><title>课程设计中期检查</title><link>https://riyuexingchennnn.github.io/posts/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1%E4%B8%AD%E6%9C%9F%E6%A3%80%E6%9F%A5/</link><guid isPermaLink="true">https://riyuexingchennnn.github.io/posts/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1%E4%B8%AD%E6%9C%9F%E6%A3%80%E6%9F%A5/</guid><pubDate>Tue, 14 Jan 2025 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;项目计划书概述&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>日月星辰</title><description>个人博客</description><link>https://riyuexingchennnn.github.io/</link><language>zh_CN</language><item><title>rm软件组客户端开发快速引导</title><link>https://riyuexingchennnn.github.io/posts/rm%E8%BD%AF%E4%BB%B6%E7%BB%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%80%E5%8F%91%E5%BF%AB%E9%80%9F%E5%BC%95%E5%AF%BC/</link><guid isPermaLink="true">https://riyuexingchennnn.github.io/posts/rm%E8%BD%AF%E4%BB%B6%E7%BB%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%80%E5%8F%91%E5%BF%AB%E9%80%9F%E5%BC%95%E5%AF%BC/</guid><pubDate>Mon, 01 Dec 2025 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;rm软件组&lt;/h1&gt;
+&lt;p&gt;26赛季起，Robomaster鼓励制作自定义客户端，rm软件组开发自定义客户端，要设计更多客制化功能和UI，以提高操作手对战场的把控能力。&lt;/p&gt;
+&lt;h2&gt;我们的任务&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;自定义客户端&lt;/strong&gt; ( ⭐⭐⭐ )&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;到在联盟赛的时候能做出一版只为test的demo版，目的只是测试赛场环境下的网络交互。&lt;/li&gt;
+&lt;li&gt;到分区赛或者明年正式上线自定义客户端&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;上场可以通过与官方电脑连接网线共享ip地址的形式，让操作手携带的装有自定义客户端的电脑也能连接上裁判系统(规则是否允许，有待商榷)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;视觉仿真软件&lt;/strong&gt; ( ⭐⭐ )&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;为能量机关和雷达站提供仿真视频&lt;/li&gt;
+&lt;li&gt;为自瞄提供仿真环境&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&quot;./rm%E8%BD%AF%E4%BB%B6%E7%BB%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%80%E5%8F%91%E5%BF%AB%E9%80%9F%E5%BC%95%E5%AF%BC/10.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./rm%E8%BD%AF%E4%BB%B6%E7%BB%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%80%E5%8F%91%E5%BF%AB%E9%80%9F%E5%BC%95%E5%AF%BC/11.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;我的开源：https://fyt-vision.coding.net/p/fyt2025/d/rm_unity/git&lt;/p&gt;
+&lt;p&gt;rv仿真开源：https://gitlab.com/rm_vision/rm_vision_simulator&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;自定义客户端要有多自定义&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;上方显示敌方机器人血量&lt;/strong&gt; ( ⭐⭐⭐ )&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;方案一：使用yolo算法对图传帧处理，识别敌方机器人，在上方绘制血量UI&lt;/li&gt;
+&lt;li&gt;方案二：利用视觉计算的敌方机器人位置透视变换到图传视角，在上方绘制血量UI&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&quot;./rm%E8%BD%AF%E4%BB%B6%E7%BB%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%80%E5%8F%91%E5%BF%AB%E9%80%9F%E5%BC%95%E5%AF%BC/9.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;超级赛场回放&lt;/strong&gt; ( ⭐⭐⭐ )&lt;/p&gt;
+&lt;p&gt;自定义客户端不仅要录制操作手图传画面，还要录制实时赛场的各种状态信息、机器人信息，还要按照视频帧&lt;strong&gt;录制操作手鼠标键盘事件&lt;/strong&gt;，以便操作手复盘&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;什么人推荐加入rm软件组&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;计算机专业，想学习计算机客户端软件设计的原理，了解网络请求，业务处理的流程。&lt;/li&gt;
+&lt;li&gt;准备找工作的同学，此项目完全对标dji的rm专招通道的客户端开发岗位，并且提供转正机会，机不可失。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&quot;./rm%E8%BD%AF%E4%BB%B6%E7%BB%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%80%E5%8F%91%E5%BF%AB%E9%80%9F%E5%BC%95%E5%AF%BC/14.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;学习过unity游戏开发的，做过Android Studio项目或者开发过某种客户端的同学。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;快速开始&lt;/h1&gt;
+&lt;p&gt;只学习一个开发工具，一种语言，快速上手客户端开发&lt;/p&gt;
+&lt;h2&gt;环境配置&lt;/h2&gt;
+&lt;h3&gt;Unity配置&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://docs.unity3d.com/6000.3/Documentation/Manual/first-time-user.html&quot;&gt;Unity6.3LTS官方文档&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;windows&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;windows安装比较简单，unity适配也比较好，&lt;strong&gt;较推荐&lt;/strong&gt;，适合新手。&lt;/p&gt;
+&lt;p&gt;如果你不喜欢windows做开发，使用ubuntu也是可以的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;ubuntu&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;按顺序安装好unityhub，安装好Unity6.3 LTS(6000.3.1f1) Editor, 注册好unity账户，添加Personal License&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果在下载unity编辑器的时候出现了&lt;code&gt;下载失败: Validation Failed&lt;/code&gt;，检查clash有没有开TUN虚拟网卡模式&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安装一个unity的linux补丁工具，解决引擎卡顿问题。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo apt-get install unity-tweak-tool
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果依然卡顿，检查nvidia-smi显示的功率，查看unity是否使用显卡。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;打开引擎新建一个项目，选择 Edit-&amp;gt;Preferences-&amp;gt;External Tools-&amp;gt;External Scripts Editor，选成你想要的vscode编辑器&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Vscode 配置&lt;/h3&gt;
+&lt;p&gt;安装3个插件即可&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./rm%E8%BD%AF%E4%BB%B6%E7%BB%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%80%E5%8F%91%E5%BF%AB%E9%80%9F%E5%BC%95%E5%AF%BC/1.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;./rm%E8%BD%AF%E4%BB%B6%E7%BB%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%80%E5%8F%91%E5%BF%AB%E9%80%9F%E5%BC%95%E5%AF%BC/2.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;./rm%E8%BD%AF%E4%BB%B6%E7%BB%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%80%E5%8F%91%E5%BF%AB%E9%80%9F%E5%BC%95%E5%AF%BC/3.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;打开unity项目和对应的vscode代码，等待vscode输出框安装完所有环境后打开代码，检查是否有代码补全提示和语法报错提醒，有即为正常&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./rm%E8%BD%AF%E4%BB%B6%E7%BB%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%80%E5%8F%91%E5%BF%AB%E9%80%9F%E5%BC%95%E5%AF%BC/4.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;制作第一款2D平台跳跃游戏&lt;/h2&gt;
+&lt;p&gt;推荐学习B站up主 &lt;strong&gt;秦无邪OvO&lt;/strong&gt; 的入门开发课程&lt;/p&gt;
+&lt;p&gt;我的开源: https://github.com/riyuexingchennnn/Unity_demo&lt;/p&gt;
+&lt;p&gt;重点关注：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;unity 引擎使用&lt;/li&gt;
+&lt;li&gt;C# 代码编写&lt;/li&gt;
+&lt;li&gt;UGUI&lt;/li&gt;
+&lt;li&gt;Input System&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;少量关注：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ShaderGraph&lt;/li&gt;
+&lt;li&gt;Animator&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果你有良好的编程习惯和基础，unity引擎对你而言，就和玩具差不多&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;Mock调试&lt;/h2&gt;
+&lt;p&gt;目前收集的开源有:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;[RM2026][江南大学霞客湾校区]自定义客户端模拟数据发送&amp;amp;MQTT可视化数据面板开源 https://bbs.robomaster.com/article/1296480?source=1&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;RMMock-自定义客户端协议的第三方后端实现开源https://bbs.robomaster.com/article/1296451
+代码：https://github.com/stydxm/RMMock&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;可以先使用开源，推荐使用第一个，然后在此基础上逐步建立我们自己的rm_mock仓库&lt;/p&gt;
+&lt;h3&gt;SharkDataSever开源&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果你很熟悉Vue，你可以不用采取我的方法，直接跳过此部分教学&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;使用鱼香ROS一键安装，选择 数字6 NodeJS环境&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;wget http://fishros.com/install -O fishros &amp;amp;&amp;amp; . fishros
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然后使用&lt;code&gt;node --version&lt;/code&gt;查看nodejs版本，我的版本是&lt;code&gt;v18.20.8&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;如何使用和我一样的版本？安装node版本管理工具nvm，安装18选择18&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;然后依次安装cnpm、pnpm&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm install -g cnpm --registry=https://registry.npmmirror.com
+cnpm install -g pnpm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安装，运行mqtt可视化Vue界面&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pnpm install
+pnpm run mqtt-visual
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;运行图传视频流&lt;/p&gt;
+&lt;p&gt;将目标视频文件通过&lt;code&gt;openshot&lt;/code&gt;转成h265格式的视频，播放更流畅，帧率稳定。放入VideoSource文件夹中。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./rm%E8%BD%AF%E4%BB%B6%E7%BB%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%80%E5%8F%91%E5%BF%AB%E9%80%9F%E5%BC%95%E5%AF%BC/12.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pnpm run udp
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Protocol Buffers 入门&lt;/h2&gt;
+&lt;p&gt;官方文档是最好的学习资料：https://protobuf.com.cn/overview/&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;检查自己电脑的proto编译器的版本&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo apt install -y protobuf-compiler
+protoc --version
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果你的电脑显示的版本为&lt;code&gt;libprotoc 3.12.4&lt;/code&gt;。请注意这是非常老的版本，这个通常是由apt安装的，可以选择安装新版本protoc(旧的可以不用卸载)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安装最新的protoc (⚠️实测&lt;strong&gt;不推荐&lt;/strong&gt;，unity不支持新版)&lt;/p&gt;
+&lt;p&gt;https://github.com/protocolbuffers/protobuf/releases&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./rm%E8%BD%AF%E4%BB%B6%E7%BB%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%80%E5%8F%91%E5%BF%AB%E9%80%9F%E5%BC%95%E5%AF%BC/5.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;解压后复制到/user/local目录中去&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo cp bin/protoc /usr/local/bin/
+sudo cp -r include/* /usr/local/include/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;/usr/local/bin 的优先级高于 /usr/bin
+所以你的系统会自动使用新的 protoc&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;再次检查版本，就可以看到&lt;code&gt;libprotoc 33.2&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;⚠️ 注意：不推荐使用export路径的方式加到bashrc里去，因为这只对shell环境有用，容易出其他问题。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Protocol Buffer 基础：C#&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://protobuf.com.cn/getting-started/csharptutorial/&quot;&gt;官方文档&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;下载我整理的proto文件&amp;lt;a href=&quot;/files/rm_messages.proto&quot; download=&quot;rm_messages.proto&quot;&amp;gt;rm_messages.proto&amp;lt;/a&amp;gt;&lt;/p&gt;
+&lt;p&gt;运行下面指令，会得到一个RmMessages.cs的文件&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;protoc --csharp_out=. rm_messages.proto
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Unity 与 mqtt protobuf&lt;/h2&gt;
+&lt;p&gt;刚刚导入的RmMessages.cs会遇到一个Google.Protobuf依赖不匹配的问题，推荐到Nuget上下载对应3.12.4版本的dll库(选用老版本保证兼容性)&lt;/p&gt;
+&lt;h3&gt;方法一：使用Nuget包管理工具安装dll库 (⭐推荐)&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;unity安装Nuget包管理工具&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;先到这个链接下载最新的&lt;strong&gt;unitypackage&lt;/strong&gt;文件 https://github.com/GlitchEnzo/NuGetForUnity/releases 拖入unity中import&lt;/li&gt;
+&lt;li&gt;重启unity后，引擎上方会多一个Nuget选项&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;打开 Nuget Manager，搜索Google.Protobuf，选择&lt;strong&gt;对应3.12.4版本&lt;/strong&gt;，然后install，新安装的dll会出现在Assets/Packages里&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;同理安装&lt;strong&gt;MQTTnet 4.3.3.952&lt;/strong&gt;&lt;/p&gt;
+&lt;h3&gt;方法二：第三方安装&lt;/h3&gt;
+&lt;p&gt;https://nuget.info/packages/Google.Protobuf/3.12.4&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./rm%E8%BD%AF%E4%BB%B6%E7%BB%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%80%E5%8F%91%E5%BF%AB%E9%80%9F%E5%BC%95%E5%AF%BC/6.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;然后下载下来，拖到unity中Assets/Plugins目录下即可&lt;/p&gt;
+&lt;p&gt;https://nuget.info/packages/MQTTnet/4.3.3.952&lt;/p&gt;
+&lt;p&gt;同理，下载MQTTnet.dll，放到unity的Assets/Plugins目录&lt;/p&gt;
+&lt;h1&gt;官方项目解包&lt;/h1&gt;
+&lt;p&gt;开发客户端必须要UI美术资源，这里我们作为程序员只能利用&lt;s&gt;盗用&lt;/s&gt;官方UI资源。&lt;/p&gt;
+&lt;p&gt;推荐使用&lt;a href=&quot;https://github.com/AssetRipper/AssetRipper/releases&quot;&gt;RipperAsset&lt;/a&gt;进行解包&lt;/p&gt;
+&lt;p&gt;解包后的项目，有全部的UI和C#代码，但是缺少关键的xuml文件，加上2025年官方没有使用到mqtt和protobuf，所以仍需自己重头开发。&lt;/p&gt;
+&lt;p&gt;我的解包(如果你需要，请联系我)：https://gitee.com/caimingchen0602/export-project&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这种解包再复刻项目的过程叫做&lt;strong&gt;逆向开发&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1&gt;正式开发&lt;/h1&gt;
+&lt;h2&gt;前置知识&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;熟练使用unity&lt;/li&gt;
+&lt;li&gt;了解web三件套程序的编写&lt;/li&gt;
+&lt;li&gt;了解http、mqtt、websocket通信协议流程，知道TCP/UDP通信原理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;UI Toolkit&lt;/h2&gt;
+&lt;p&gt;为什么选择UI Toolkit而不选择UGUI？&lt;/p&gt;
+&lt;p&gt;UI Toolkit更符合客户端开发，&lt;strong&gt;性能好&lt;/strong&gt;(UGUI每个UI都是一个GameObject，因此会有大量的GameObject)，代码清晰。而UGUI更符合game-only&lt;/p&gt;
+&lt;h3&gt;示例：编写第一个页面 开始界面&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;./rm%E8%BD%AF%E4%BB%B6%E7%BB%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%80%E5%8F%91%E5%BF%AB%E9%80%9F%E5%BC%95%E5%AF%BC/8.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;方法一：在Project中create一个UIDocument，双击点开进入UIBuilder，直接通过UIBuilder可视化界面编辑UI界面。UI元素的标签和样式全都自动生成到uxml文件之中，新手友好，但是不直观。&lt;/li&gt;
+&lt;li&gt;方法二：创建一个uxml文件(相当于xml)和uss文件(相当于css文件)，直接编写标签和样式代码。新手不友好，各种样式类选择器优先级复杂难记，相对直观，容易管理。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;编写StartMenuController.cs代码，拖放到UIDocument物体上。&lt;/p&gt;
+&lt;p&gt;(页面设计十分类似安卓原生开发)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;using UnityEngine;
+using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
+
+public class StartMenuController : MonoBehaviour
+{
+    private void OnEnable()
+    {
+        var root = GetComponent&amp;lt;UIDocument&amp;gt;().rootVisualElement;
+
+        Button startButton = root.Q&amp;lt;Button&amp;gt;(&quot;start-button&quot;); // 使用按钮的名字或 class
+
+        startButton.clicked += StartGame;
+    }
+
+    void StartGame()
+    {
+        Debug.Log(&quot;游戏开始！&quot;);
+        // 例如：加载场景
+        SceneManager.LoadScene(&quot;level 1&quot;);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;MQTT通信&lt;/h2&gt;
+&lt;h3&gt;示例：编写第一个MQTT接口 GameStatus&lt;/h3&gt;
+&lt;p&gt;参考Robomaster官方附录三，利用MQTTnet库编写一个脚本main.cs&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;using MQTTnet;
+using MQTTnet.Client;
+using MQTTnet.Protocol;
+using System;
+using System.Threading.Tasks;
+using UnityEngine;
+using Google.Protobuf;
+using RmMessages;
+
+/// &amp;lt;summary&amp;gt;
+/// GameStatus MQTT 客户端
+/// 用于实时接收服务器发送的 GameStatus 消息
+/// &amp;lt;/summary&amp;gt;
+public class GameStatusReceiver : MonoBehaviour
+{
+    [Header(&quot;MQTT 连接配置&quot;)]
+    [SerializeField] private string brokerHost = &quot;127.0.0.1&quot;;
+    [SerializeField] private int brokerPort = 3333;
+    [SerializeField] private string clientId = &quot;rm_custom_client&quot;;
+    [SerializeField] private string gameStatusTopic = &quot;GameStatus&quot;;
+
+    [Header(&quot;状态显示&quot;)]
+    [SerializeField] private bool showDebugInfo = true;
+
+    // MQTT 客户端
+    private IMqttClient _mqttClient;
+
+    // 当前游戏状态
+    private GameStatus _currentGameStatus;
+    public GameStatus CurrentGameStatus =&amp;gt; _currentGameStatus;
+
+    // 事件：当 GameStatus 更新时触发
+    public event Action&amp;lt;GameStatus&amp;gt; OnGameStatusUpdated;
+
+    // 线程安全的消息队列
+    private readonly System.Collections.Concurrent.ConcurrentQueue&amp;lt;GameStatus&amp;gt; _messageQueue
+        = new System.Collections.Concurrent.ConcurrentQueue&amp;lt;GameStatus&amp;gt;();
+
+    private void Start()
+    {
+        _currentGameStatus = new GameStatus();
+        ConnectToMqttBroker();
+    }
+
+    private void Update()
+    {
+        // 在主线程中处理接收到的消息
+        while (_messageQueue.TryDequeue(out GameStatus status))
+        {
+            _currentGameStatus = status;
+            OnGameStatusUpdated?.Invoke(status);
+
+            if (showDebugInfo)
+            {
+                LogGameStatus(status);
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        Disconnect();
+    }
+
+    private void OnApplicationQuit()
+    {
+        Disconnect();
+    }
+
+    /// &amp;lt;summary&amp;gt;
+    /// 连接到 MQTT Broker
+    /// &amp;lt;/summary&amp;gt;
+    public async void ConnectToMqttBroker()
+    {
+        try
+        {
+            Debug.Log($&quot;[GameStatusReceiver] 正在连接到 MQTT Broker: {brokerHost}:{brokerPort}&quot;);
+
+            // 客户端选项生成器
+            var options = new MqttClientOptionsBuilder()
+                .WithClientId(clientId)
+                .WithTcpServer(brokerHost, brokerPort)
+                .Build();
+
+            // 创建客户端
+            _mqttClient = new MqttFactory().CreateMqttClient();
+
+            // 监测客户端 连接/断开连接 完成
+            _mqttClient.ConnectedAsync += OnClientConnected;
+            _mqttClient.DisconnectedAsync += OnClientDisconnected;
+
+            // 客户端接收到消息
+            _mqttClient.ApplicationMessageReceivedAsync += OnMessageReceived;
+
+            // 连接服务器
+            await _mqttClient.ConnectAsync(options);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($&quot;[GameStatusReceiver] 连接异常: {ex.Message}&quot;);
+        }
+    }
+
+    /// &amp;lt;summary&amp;gt;
+    /// 连接完成回调
+    /// &amp;lt;/summary&amp;gt;
+    private Task OnClientConnected(MqttClientConnectedEventArgs args)
+    {
+        Debug.Log(&quot;[GameStatusReceiver] 成功连接到 MQTT Broker&quot;);
+
+        // 订阅 GameStatus 主题
+        Subscribe(gameStatusTopic);
+
+        return Task.CompletedTask;
+    }
+
+    /// &amp;lt;summary&amp;gt;
+    /// 断开连接回调
+    /// &amp;lt;/summary&amp;gt;
+    private Task OnClientDisconnected(MqttClientDisconnectedEventArgs args)
+    {
+        Debug.Log(&quot;[GameStatusReceiver] 已断开 MQTT 连接&quot;);
+        return Task.CompletedTask;
+    }
+
+    /// &amp;lt;summary&amp;gt;
+    /// 接收到消息回调
+    /// &amp;lt;/summary&amp;gt;
+    private Task OnMessageReceived(MqttApplicationMessageReceivedEventArgs args)
+    {
+        try
+        {
+            string topic = args.ApplicationMessage.Topic;
+            byte[] payload = args.ApplicationMessage.PayloadSegment.ToArray();
+
+            if (showDebugInfo)
+            {
+                Debug.Log($&quot;[GameStatusReceiver] 收到消息 topic: {topic}&quot;);
+            }
+
+            // 如果是 GameStatus 主题，解析 Protobuf 消息
+            if (topic == gameStatusTopic)
+            {
+                GameStatus status = GameStatus.Parser.ParseFrom(payload);
+                _messageQueue.Enqueue(status);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($&quot;[GameStatusReceiver] 解析消息失败: {ex.Message}&quot;);
+        }
+
+        return Task.CompletedTask;
+    }
+
+    /// &amp;lt;summary&amp;gt;
+    /// 订阅主题
+    /// &amp;lt;/summary&amp;gt;
+    public void Subscribe(string topic)
+    {
+        _mqttClient?.SubscribeAsync(new MqttTopicFilterBuilder().WithTopic(topic).Build());
+        Debug.Log($&quot;[GameStatusReceiver] 已订阅主题: {topic}&quot;);
+    }
+
+    /// &amp;lt;summary&amp;gt;
+    /// 发布字节消息
+    /// &amp;lt;/summary&amp;gt;
+    public void PublishBytesMsg(string topic, byte[] message,
+        MqttQualityOfServiceLevel level = MqttQualityOfServiceLevel.ExactlyOnce,
+        bool isRetain = false)
+    {
+        _mqttClient?.PublishBinaryAsync(topic, message, level, isRetain);
+    }
+
+    /// &amp;lt;summary&amp;gt;
+    /// 断开 MQTT 连接
+    /// &amp;lt;/summary&amp;gt;
+    public async void Disconnect()
+    {
+        if (_mqttClient != null &amp;amp;&amp;amp; _mqttClient.IsConnected)
+        {
+            try
+            {
+                await _mqttClient.DisconnectAsync();
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($&quot;[GameStatusReceiver] 断开连接时出错: {ex.Message}&quot;);
+            }
+        }
+    }
+
+    /// &amp;lt;summary&amp;gt;
+    /// 输出 GameStatus 调试信息
+    /// &amp;lt;/summary&amp;gt;
+    private void LogGameStatus(GameStatus status)
+    {
+        string stageDesc = status.CurrentStage switch
+        {
+            0 =&amp;gt; &quot;未开始比赛&quot;,
+            1 =&amp;gt; &quot;准备阶段&quot;,
+            2 =&amp;gt; &quot;裁判系统自检&quot;,
+            3 =&amp;gt; &quot;五秒倒计时&quot;,
+            4 =&amp;gt; &quot;比赛中&quot;,
+            5 =&amp;gt; &quot;比赛结算中&quot;,
+            _ =&amp;gt; &quot;未知阶段&quot;
+        };
+
+        Debug.Log($&quot;[GameStatus] 第 {status.CurrentRound}/{status.TotalRounds} 局 | &quot; +
+                  $&quot;红方: {status.RedScore} vs 蓝方: {status.BlueScore} | &quot; +
+                  $&quot;阶段: {stageDesc} | &quot; +
+                  $&quot;倒计时: {status.StageCountdownSec}s | &quot; +
+                  $&quot;已用时: {status.StageElapsedSec}s | &quot; +
+                  $&quot;暂停: {status.IsPaused}&quot;);
+    }
+
+    /// &amp;lt;summary&amp;gt;
+    /// 获取当前阶段描述
+    /// &amp;lt;/summary&amp;gt;
+    public string GetCurrentStageDescription()
+    {
+        return _currentGameStatus?.CurrentStage switch
+        {
+            0 =&amp;gt; &quot;未开始比赛&quot;,
+            1 =&amp;gt; &quot;准备阶段&quot;,
+            2 =&amp;gt; &quot;裁判系统自检&quot;,
+            3 =&amp;gt; &quot;五秒倒计时&quot;,
+            4 =&amp;gt; &quot;比赛中&quot;,
+            5 =&amp;gt; &quot;比赛结算中&quot;,
+            _ =&amp;gt; &quot;未知阶段&quot;
+        };
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;运行unity，打开Mock测试端，发送GameStatus消息。如果在unity中看到有收到这个话题消息，即为成功&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./rm%E8%BD%AF%E4%BB%B6%E7%BB%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%80%E5%8F%91%E5%BF%AB%E9%80%9F%E5%BC%95%E5%AF%BC/7.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;UDP 图传视频流&lt;/h2&gt;
+&lt;h3&gt;FFmpeg&lt;/h3&gt;
+&lt;p&gt;服务器发送的是 HEVC (H.265) 编码的视频流，不是 JPEG。每个 UDP 包有 8 字节的自定义协议头。&lt;/p&gt;
+&lt;p&gt;Unity 原生不支持 HEVC 解码，我们可以使用 FFmpeg 可执行文件，通过启动 &lt;strong&gt;FFmpeg 进程&lt;/strong&gt;来解码 HEVC 流&lt;/p&gt;
+&lt;p&gt;linux ffmpeg下载: https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz&lt;/p&gt;
+&lt;p&gt;windows ffmpeg下载：https://www.gyan.dev/ffmpeg/builds/  下载 ffmpeg-release-essentials.zip 解压后找到 bin/ffmpeg.exe&lt;/p&gt;
+&lt;p&gt;先确保赋有权限&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;chmod +x rm_custom_client/Assets/StreamingAssets/RockVR/FFmpeg/linux/ffmpeg
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;UDP&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;./rm%E8%BD%AF%E4%BB%B6%E7%BB%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%80%E5%8F%91%E5%BF%AB%E9%80%9F%E5%BC%95%E5%AF%BC/13.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;根据官方说明，我们接受udp数据包，要按顺序拼接组装帧数据&lt;/p&gt;
+&lt;p&gt;所以最终的流程是：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;把接收到的 HEVC 数据通过管道传给 FFmpeg&lt;/li&gt;
+&lt;li&gt;FFmpeg 解码后输出原始 RGB 数据&lt;/li&gt;
+&lt;li&gt;把 RGB 数据写入 Texture2D 显示&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Unity Sentis with yolov5&lt;/h2&gt;
+&lt;p&gt;在unity6.3LTS中，已经弃用了Sentis库，改成com.unity.ai.inference&lt;/p&gt;
+&lt;p&gt;打开Package Manager &amp;gt; 选择左上角加号 &amp;gt; 选择Add &amp;gt; 输入com.unity.ai.inference&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://docs.unity3d.com/Packages/com.unity.ai.inference@2.4/manual/index.html&quot;&gt;依旧官方文档&lt;/a&gt;&lt;/p&gt;
+</content:encoded></item><item><title>课程设计中期检查</title><link>https://riyuexingchennnn.github.io/posts/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1%E4%B8%AD%E6%9C%9F%E6%A3%80%E6%9F%A5/</link><guid isPermaLink="true">https://riyuexingchennnn.github.io/posts/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1%E4%B8%AD%E6%9C%9F%E6%A3%80%E6%9F%A5/</guid><pubDate>Tue, 14 Jan 2025 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;项目计划书概述&lt;/h2&gt;
 &lt;p&gt;影云（PicCloud）项目旨在设计并实现一个综合图片管理系统，支持用户上传、管理、搜索和分析图片。项目设计包括前后端的功能需求、人员分工、技术栈和数据库设计等。以下是该项目的详细规划和技术方案。&lt;/p&gt;
 &lt;hr /&gt;
 &lt;h3&gt;项目功能性需求&lt;/h3&gt;
@@ -1235,4 +1756,172 @@ SeparableConv2D 层）。这种层对输入的每个通道分别进行空间卷�
 &lt;li&gt;在Gitee中提交随意一个推理视频&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;截止日期：12月7日（周六）&lt;/p&gt;
+</content:encoded></item><item><title>树莓派+Openwrt连接校园网，打破校园网设备限制</title><link>https://riyuexingchennnn.github.io/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-openwrt%E8%BF%9E%E6%8E%A5%E6%A0%A1%E5%9B%AD%E7%BD%91%E6%89%93%E7%A0%B4%E6%A0%A1%E5%9B%AD%E7%BD%91%E8%AE%BE%E5%A4%87%E9%99%90%E5%88%B6/</link><guid isPermaLink="true">https://riyuexingchennnn.github.io/posts/%E6%A0%91%E8%8E%93%E6%B4%BE-openwrt%E8%BF%9E%E6%8E%A5%E6%A0%A1%E5%9B%AD%E7%BD%91%E6%89%93%E7%A0%B4%E6%A0%A1%E5%9B%AD%E7%BD%91%E8%AE%BE%E5%A4%87%E9%99%90%E5%88%B6/</guid><pubDate>Wed, 17 Apr 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;前言&lt;/h1&gt;
+&lt;p&gt;因为本校学生校园网只允许最多三个设备登录，对于同时拥有多个联网设备的我十分不友好，而且大多单片机如esp32的wifi模块是只允许一般的WPA/WPA2认证的，是不支持校园网的portal认证。所以我决定搞一个路由器。&lt;/p&gt;
+&lt;p&gt;然后我上网买了一个TP-Link的路由器，首先尝试将插一根网线到宿舍座位上的墙口上，然后发现根本就没有网络(我们学校有的宿舍可以)。然后我尝试无线连接校园网，将路由器MAC改成了我连过校园网的手机/电脑的MAC，无果。于是最后我就决定自己用手头上的树莓派搭建一个软路由。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;参考链接：https://www.bilibili.com/read/cv4211352/&lt;/p&gt;
+&lt;h1&gt;准备工作&lt;/h1&gt;
+&lt;h2&gt;所需物资&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;树莓派4B(最好带散热器)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;USB无线网卡一个&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;网线&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;sd卡与读卡器&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;路由器一个(可选，我用的是TP-Link)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;烧录Openwrt&lt;/h2&gt;
+&lt;p&gt;我采用的烧录软件是win32disk，上网下载树莓派4B的Openwrt的镜像文件。下面是文件链接:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;https://openwrt.cc/releases/targets/bcm27xx/bcm2711/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%A0%91%E8%8E%93%E6%B4%BE-Openwrt%E8%BF%9E%E6%8E%A5%E6%A0%A1%E5%9B%AD%E7%BD%91%EF%BC%8C%E6%89%93%E7%A0%B4%E6%A0%A1%E5%9B%AD%E7%BD%91%E8%AE%BE%E5%A4%87%E9%99%90%E5%88%B6/1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;下载这个然后解压，烧录，插入树莓派，开机。&lt;/p&gt;
+&lt;h1&gt;正式开始&lt;/h1&gt;
+&lt;h2&gt;配置好Openwrt&lt;/h2&gt;
+&lt;p&gt;首先，要插入准备好的USB无线网卡，然后连一根网线到树莓派和你的电脑(可以检查一下树莓派有线网口上的指示灯亮没亮)。&lt;/p&gt;
+&lt;p&gt;等待树莓派开好机后，在浏览器中输入192.168.1.1，输入默认密码&lt;code&gt;password&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%A0%91%E8%8E%93%E6%B4%BE-Openwrt%E8%BF%9E%E6%8E%A5%E6%A0%A1%E5%9B%AD%E7%BD%91%EF%BC%8C%E6%89%93%E7%A0%B4%E6%A0%A1%E5%9B%AD%E7%BD%91%E8%AE%BE%E5%A4%87%E9%99%90%E5%88%B6/2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;点击&lt;code&gt;网络&lt;/code&gt;--&lt;code&gt;无线&lt;/code&gt;，然后点机你树莓派4B的无线网卡的&lt;code&gt;扫描&lt;/code&gt;，找到校园网连接，后面的参数全是默认的，保存提交即可。&lt;/p&gt;
+&lt;p&gt;找到你的有线网卡，调成像我这样的Openwrt&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%A0%91%E8%8E%93%E6%B4%BE-Openwrt%E8%BF%9E%E6%8E%A5%E6%A0%A1%E5%9B%AD%E7%BD%91%EF%BC%8C%E6%89%93%E7%A0%B4%E6%A0%A1%E5%9B%AD%E7%BD%91%E8%AE%BE%E5%A4%87%E9%99%90%E5%88%B6/3.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;重启树莓派，打开手机wifi，看看手机上能不能识别到Openwrt这个wifi,因为我这里已经弄好了，正常你们看到的Openwrt应该是不可上网&lt;/p&gt;
+&lt;p&gt;&amp;lt;img src=&quot;./树莓派-Openwrt连接校园网，打破校园网设备限制/4.jpg&quot; width=&quot;50%&quot; height=&quot;50%&quot;&amp;gt;&lt;/p&gt;
+&lt;h2&gt;校园网认证&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这是最重要的部分&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;用你电脑打开校园网认证地址，在这里我们要找到那个登录的请求URL。按下F12，复制下来你的请求URL&lt;/p&gt;
+&lt;p&gt;这里放个插曲(&lt;strong&gt;因为下面你可能会遇到&lt;/strong&gt;)，如果你发现，校园网认证网址(比如这个https://portal.csu.edu.cn/)打开后，网页很快的就反应了&lt;code&gt;无法连接&lt;/code&gt;，而校园网wifi是连接上的，多半是DNS解析出了错(原因暂时不知，推测是校园网发现了你是路由器)。把网址改成10.1.1.1我们直接替它DNS解析好。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%A0%91%E8%8E%93%E6%B4%BE-Openwrt%E8%BF%9E%E6%8E%A5%E6%A0%A1%E5%9B%AD%E7%BD%91%EF%BC%8C%E6%89%93%E7%A0%B4%E6%A0%A1%E5%9B%AD%E7%BD%91%E8%AE%BE%E5%A4%87%E9%99%90%E5%88%B6/5.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;现在让我们来分析一下这个URL，别的学校应该也差不多&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%A0%91%E8%8E%93%E6%B4%BE-Openwrt%E8%BF%9E%E6%8E%A5%E6%A0%A1%E5%9B%AD%E7%BD%91%EF%BC%8C%E6%89%93%E7%A0%B4%E6%A0%A1%E5%9B%AD%E7%BD%91%E8%AE%BE%E5%A4%87%E9%99%90%E5%88%B6/6.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;我们需要关注的就这几个东西，这里的IP地址，就是校园网分配个你电脑的IP地址，我们用在树莓派上也是ok的，随机数感兴趣的话可以看看前端的js脚本是怎么写的，这里也不用管。把这这个url保存好，待会用。&lt;/p&gt;
+&lt;h2&gt;SSH链接树莓派&lt;/h2&gt;
+&lt;p&gt;在你电脑上cmd窗口输入&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ssh root@192.168.1.1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;连上校园网后，先ping一下portal.csu.edu.cn，发现ping不通，ping一下10.1.1.1，可以ping通，就是我上面说的那个DNS的问题。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;C:\Users\LEGION&amp;gt;ssh root@192.168.1.1
+/root/.zcompdump:145: unmatched &apos;
+
+# root @ OpenWrt in ~ [13:21:15]
+$ ping portal.csu.edu.cn
+ping: bad address &apos;portal.csu.edu.cn&apos;
+
+# root @ OpenWrt in ~ [13:21:27] C:1
+$ ping 10.1.1.1
+PING 10.1.1.1 (10.1.1.1): 56 data bytes
+64 bytes from 10.1.1.1: seq=0 ttl=63 time=6.838 ms
+64 bytes from 10.1.1.1: seq=1 ttl=63 time=5.550 ms
+64 bytes from 10.1.1.1: seq=2 ttl=63 time=2.374 ms
+64 bytes from 10.1.1.1: seq=3 ttl=63 time=4.579 ms
+^C
+--- 10.1.1.1 ping statistics ---
+4 packets transmitted, 4 packets received, 0% packet loss
+round-trip min/avg/max = 2.374/4.835/6.838 ms
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然后用curl指令发送请求，-k是忽略不安全访问。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;curl -k &quot;你的请求URL&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果成功了的话，通常会得到一个respond有认证成功的。如果不成功，就要自己找原因了。&lt;/p&gt;
+&lt;p&gt;在这次登录以后，校园网已经记住了树莓派的MAC。我就可以直接通过其他设备连接软路由WIFI，然后输入10.1.1.1就可以认证校园网了。&lt;/p&gt;
+&lt;h2&gt;Openwrt计划任务&lt;/h2&gt;
+&lt;p&gt;参考链接: https://blog.csdn.net/ET1131429439/article/details/128200042&lt;/p&gt;
+&lt;p&gt;你可以写个计划任务，让软路由自动登录校园网。也是上面的那个命令。&lt;/p&gt;
+&lt;h2&gt;网络加速&lt;/h2&gt;
+&lt;p&gt;&amp;lt;img src=&quot;./树莓派-Openwrt连接校园网，打破校园网设备限制/7.jpg&quot; width=&quot;50%&quot; height=&quot;50%&quot;&amp;gt;&lt;/p&gt;
+&lt;p&gt;这个是我用的USB无线网卡，能用但是很拉胯，通常使用来做实验用的。后面我给树莓派网线接上了一个TP-Link路由器，让路由器转发路由。这样我后来连接的都是路由器SSID名的WIFI，其实就等同于连接了Openwrt。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%A0%91%E8%8E%93%E6%B4%BE-Openwrt%E8%BF%9E%E6%8E%A5%E6%A0%A1%E5%9B%AD%E7%BD%91%EF%BC%8C%E6%89%93%E7%A0%B4%E6%A0%A1%E5%9B%AD%E7%BD%91%E8%AE%BE%E5%A4%87%E9%99%90%E5%88%B6/8.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;这是我后来的网速，勉勉强强&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E6%A0%91%E8%8E%93%E6%B4%BE-Openwrt%E8%BF%9E%E6%8E%A5%E6%A0%A1%E5%9B%AD%E7%BD%91%EF%BC%8C%E6%89%93%E7%A0%B4%E6%A0%A1%E5%9B%AD%E7%BD%91%E8%AE%BE%E5%A4%87%E9%99%90%E5%88%B6/9.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;h1&gt;后记&lt;/h1&gt;
+&lt;p&gt;也许有的同学觉得让手机连校园网再开热点，让电脑连校园网再开热点就行了。但是自己搓出来的软路由对我来说更有成就感(然后对比了一下同学的网速，自己的网速更快，成就感更高了)。此外软路由还有其他非常棒的用途(比如我给树莓派接了一个1TB的移动硬盘，下载易有云插件，就成为了一个小型的NAS主机)，请自行搜索。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;每个人总要踏出自己的舒适圈，要积极尝试，然后用知识改变命运。&lt;/p&gt;
+&lt;/blockquote&gt;
+</content:encoded></item><item><title>用手机NFC复制校园一卡通</title><link>https://riyuexingchennnn.github.io/posts/%E7%94%A8%E6%89%8B%E6%9C%BAnfc%E5%A4%8D%E5%88%B6%E6%A0%A1%E5%9B%AD%E4%B8%80%E5%8D%A1%E9%80%9A/</link><guid isPermaLink="true">https://riyuexingchennnn.github.io/posts/%E7%94%A8%E6%89%8B%E6%9C%BAnfc%E5%A4%8D%E5%88%B6%E6%A0%A1%E5%9B%AD%E4%B8%80%E5%8D%A1%E9%80%9A/</guid><pubDate>Wed, 06 Sep 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;前言&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;NFC是Near Field Communication缩写，即&lt;strong&gt;近距离无线通讯技术&lt;/strong&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;校园卡一般是感应式CPU卡，是一种加密卡。&lt;/p&gt;
+&lt;p&gt;如果只有一个带nfc功能的安卓手机，那么手机只能复制校园卡的第0块第0扇区，类似于nfc卡的卡号或者有点像是nfc的名字。&lt;/p&gt;
+&lt;p&gt;加密部分都不能被读取出来。一般关于钱的部分都被加密了。&lt;/p&gt;
+&lt;p&gt;所以想完完整整的复制校园卡需要自己在淘宝购买解码器，或者去校园外的锁业打听，一般锁业需要本人带着自己的饭卡和身份证才能帮你复制。&lt;/p&gt;
+&lt;p&gt;复制好了之后，原来的饭卡和复制出来的饭卡里面的钱可以通用，在一个卡里面花钱了，另一张卡里面钱就同步也减少了，极少部分学校的一卡通复制之后金钱不同步，如果遇到这个情况建议不要贪财，应该直接向有关部门反映，也贪不了多少钱，犯不上冒着被处分的风险钻这个漏洞。&lt;/p&gt;
+&lt;p&gt;如果不想这么麻烦，不想涉及到金钱，只想用手机nfc刷门禁的同学可以继续往下看！&lt;/p&gt;
+&lt;p&gt;小编是中南大学本科生。就以中南大学校园卡来举例。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;本文参考资料：https://www.zhihu.com/question/308487617/answer/1753667726&lt;/p&gt;
+&lt;h1&gt;入门教程 —— 直接利用手机NFC创建虚拟校园卡&lt;/h1&gt;
+&lt;p&gt;手机只能复制校园卡的第0块第0扇区，而一般的门禁也基本上只读取校园卡的第0块第0扇区，所以手机自带的nfc可以刷开学校的门禁。&lt;/p&gt;
+&lt;p&gt;小编用的是华为 Hi nova 9 Pro 的手机，在手机可以找到华为手机自带的应用“钱包”，打开后点击卡包，点击右上角的加号“➕”，选择钥匙，选择门禁卡。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E7%94%A8%E6%89%8B%E6%9C%BANFC%E5%A4%8D%E5%88%B6%E6%A0%A1%E5%9B%AD%E4%B8%80%E5%8D%A1%E9%80%9A/1.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;然后“模拟实体门禁卡”即可复制校园卡，注意这里并不能复制校园卡中饭卡和水卡涉及金额的部分，这些都是有加密的。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E7%94%A8%E6%89%8B%E6%9C%BANFC%E5%A4%8D%E5%88%B6%E6%A0%A1%E5%9B%AD%E4%B8%80%E5%8D%A1%E9%80%9A/2.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;如果你还有华为手表的话，一般能用蓝牙和手机连接的华为手表也可以复制校园卡门禁。(^_^)&lt;/p&gt;
+&lt;h1&gt;基础教程 —— 将校园卡0扇区序列号复制到CUID卡中&lt;/h1&gt;
+&lt;p&gt;这种方法和上面手机类似，这个方法是将0扇区的信息复制到我们平常用的那种小蓝色门禁钥匙里。&lt;/p&gt;
+&lt;h2&gt;准备工作&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;没有安卓手机的同学借一个带nfc功能的安卓手机，需要下载一个app，名字是mifare classic tool，应用商店可能没有这个app，大家百度一下这个名字会有很多网站分享这个软件的安装包，下载好软件安装包后，发送到安卓手机上面，直接安装到手机上即可。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;淘宝随便买几张CUID卡(注意一定是CUID卡)。这里我要多说几句，我在大一时玩嵌入式开发，那个arduino套装中RC522模块中自带的一张白卡和小蓝钥匙是IC卡，不是CUID卡。IC卡的0扇区是不可擦写的。关于IC，ID，UID，FUID，CUID，CPU卡的区别，请移步到这里知乎https://zhuanlan.zhihu.com/p/351266514。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;正式开始&lt;/h2&gt;
+&lt;p&gt;打开app&lt;/p&gt;
+&lt;p&gt;选择“读标签”,全选密钥文件，将校园卡放在手机下(手机NFC一般是在摄像头附近)，调整好位置，发现屏幕底下显示了卡片的序列号，拿笔记下你的序列号，这个序列号是非常重要的，然后点击“开始映射并读取标签”。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E7%94%A8%E6%89%8B%E6%9C%BANFC%E5%A4%8D%E5%88%B6%E6%A0%A1%E5%9B%AD%E4%B8%80%E5%8D%A1%E9%80%9A/10.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;如果这里因为标签失连(可能是因为加密卡的原因)读取中途失败也没有关系，退出来点击“写标签”。点击“克隆UID”，“打开UID克隆工具”，勾选“显示选项”，看到里面的块0的其余部分和块0的写密码。&lt;/p&gt;
+&lt;p&gt;接下来详细讲一下写标签的两种方法：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;用刚刚读标签的方法，再对你的CUID卡用一次，观察读取的标签。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&quot;./%E7%94%A8%E6%89%8B%E6%9C%BANFC%E5%A4%8D%E5%88%B6%E6%A0%A1%E5%9B%AD%E4%B8%80%E5%8D%A1%E9%80%9A/3.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;可以观察到，最上面一排紫色的是UID和厂家信息，密钥A和密钥B分别是其下面的绿色的和深绿色的，看扇区0就好。&lt;/p&gt;
+&lt;p&gt;记下密钥，填写到克隆UID那里，把CUID卡放好，然后点击“计算块0并克隆UID”，火速搞定。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E7%94%A8%E6%89%8B%E6%9C%BANFC%E5%A4%8D%E5%88%B6%E6%A0%A1%E5%9B%AD%E4%B8%80%E5%8D%A1%E9%80%9A/4.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;直接写块。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&quot;./%E7%94%A8%E6%89%8B%E6%9C%BANFC%E5%A4%8D%E5%88%B6%E6%A0%A1%E5%9B%AD%E4%B8%80%E5%8D%A1%E9%80%9A/5.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;这里的数据就就要想想了，这里要求填16字节，一个字节就是两位16进制，所以要填写32个16进制数。可是刚刚数了一数那个块0剩余部分只有22位，加上8位序列数就是30位，还差2位什么？&lt;/p&gt;
+&lt;p&gt;通过查阅资料知道0扇区0块是这种构成。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E7%94%A8%E6%89%8B%E6%9C%BANFC%E5%A4%8D%E5%88%B6%E6%A0%A1%E5%9B%AD%E4%B8%80%E5%8D%A1%E9%80%9A/R-C.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在序列号和厂商信息之间夹有一个校验数，通常是序列号的异或值，这里我们可以偷懒用MCT这个软件工具里的BCC计算器来输入序列号算校验数。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;然后就凑齐了32位，一顿输出即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E7%94%A8%E6%89%8B%E6%9C%BANFC%E5%A4%8D%E5%88%B6%E6%A0%A1%E5%9B%AD%E4%B8%80%E5%8D%A1%E9%80%9A/6.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;全选密钥文件，这里的密钥文件就有很多密钥，几乎可以涵盖所有情况。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E7%94%A8%E6%89%8B%E6%9C%BANFC%E5%A4%8D%E5%88%B6%E6%A0%A1%E5%9B%AD%E4%B8%80%E5%8D%A1%E9%80%9A/7.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;大功告成！&lt;/p&gt;
+&lt;h1&gt;进阶教程 —— CUID+PCB升级校园卡&lt;/h1&gt;
+&lt;p&gt;这个部分就有点难了，请各位看情况自行撤退。&lt;/p&gt;
+&lt;p&gt;小编采用嘉立创EDA画板子。上淘宝买到cuid的芯片(不是卡了)，和0603LED灯珠。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E7%94%A8%E6%89%8B%E6%9C%BANFC%E5%A4%8D%E5%88%B6%E6%A0%A1%E5%9B%AD%E4%B8%80%E5%8D%A1%E9%80%9A/8.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;这个线圈是画在PCB板子里面，然后&lt;strong&gt;并联&lt;/strong&gt;几个0603灯珠，焊上CUID芯片，就OK了&lt;/p&gt;
+&lt;p&gt;开源链接https://oshwhub.com/heiliheili/qi-sheng-shao-huan-fan-ka-DIY&lt;/p&gt;
+&lt;p&gt;也给原作者点个赞吧，我修改了一下打印了出来。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./%E7%94%A8%E6%89%8B%E6%9C%BANFC%E5%A4%8D%E5%88%B6%E6%A0%A1%E5%9B%AD%E4%B8%80%E5%8D%A1%E9%80%9A/9.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;然后就可以带着这张卡去学校教室打卡机面前社死&lt;s&gt;装逼&lt;/s&gt;了&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1&gt;后记&lt;/h1&gt;
+&lt;p&gt;另外，还可以在安卓手机上下载个NFC Tools Pro这个软件，将你想存入的信息写如到上面的卡中，比如我把我的个人博客网址写进卡中https://wangchuanfu294.github.io/，这样别人用手机NFC一扫就可以打开了。&lt;/p&gt;
+&lt;p&gt;最后，本项目以学习为目的，请勿用于其他用途，还请各位同学们保管好自己的校园卡哟。&lt;/p&gt;
 </content:encoded></item></channel></rss>
