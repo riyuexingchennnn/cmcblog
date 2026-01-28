@@ -303,6 +303,11 @@ public class StartMenuController : MonoBehaviour
 }
 ```
 
+> 关于显示器分辨率和DPI缩放的问题，在你的UI Document使用的全局Panel Setting中找到这个Scale mode，修改成这样，把默认的分辨率调成你开发时使用的分辨率就好了。这下不管显示器是1080p还是2K还是QHD分辨率的，都能适用，图标大小不会变异。
+
+![](./rm软件组客户端开发快速引导/15.png)
+
+
 ## MQTT通信
 
 ### 示例：编写第一个MQTT接口 GameStatus
@@ -567,6 +572,13 @@ windows ffmpeg下载：https://www.gyan.dev/ffmpeg/builds/  下载 ffmpeg-releas
 chmod +x rm_custom_client/Assets/StreamingAssets/RockVR/FFmpeg/linux/ffmpeg
 ```
 
+```cs
+// FFmpeg 参数：从 stdin 读取 HEVC，输出 RGB24 原始数据到 stdout
+string arguments = $"-f hevc -i pipe:0 -f rawvideo -pix_fmt rgb24 -s {videoWidth}x{videoHeight} pipe:1";
+```
+
+像这样直接带上参数开一个进程运行ffmpeg二进制文件
+
 ### UDP
 
 ![](./rm软件组客户端开发快速引导/13.png)
@@ -579,11 +591,21 @@ chmod +x rm_custom_client/Assets/StreamingAssets/RockVR/FFmpeg/linux/ffmpeg
 2. FFmpeg 解码后输出原始 RGB 数据
 3. 把 RGB 数据写入 Texture2D 显示
 
-## Unity Sentis with yolov5
+![](./rm软件组客户端开发快速引导/16.png)
+
+## Unity ai with yolov5
 
 在unity6.3LTS中，已经弃用了Sentis库，改成com.unity.ai.inference
 
 打开Package Manager > 选择左上角加号 > 选择Add > 输入com.unity.ai.inference
 
 [依旧官方文档](https://docs.unity3d.com/Packages/com.unity.ai.inference@2.4/manual/index.html)
+
+我已经在Unity6.3中测试过com.unity.ai.inference，使用yolov5s推理，自己编写好模型的预处理和后处理。方案有了初步的可行性
+
+实测效果：检测到 5 个目标 | 推理: 2.8ms | 总计: 75.6ms
+
+![](./rm软件组客户端开发快速引导/17.png)
+
+unity ai绕过了nvidia cuda深度学习框架，使用的是GPU计算图的方式加速AI推理和unity的shader类似。使得用户不需要安装CUDA深度学习环境，只需要安装过显卡驱动就行了。
 
