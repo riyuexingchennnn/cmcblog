@@ -2,7 +2,7 @@
 title: 用手机NFC复制校园一卡通
 published: 2023-09-06
 description: ''
-image: ''
+image: './用手机NFC复制校园一卡通/9.jpg'
 tags: []
 category: '生活'
 draft: false

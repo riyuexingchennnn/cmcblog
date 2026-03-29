@@ -2,9 +2,9 @@
 title: rm软件组客户端开发快速引导
 published: 2025-12-01
 description: ''
-image: ''
-tags: [前端开发]
-category: 'FYT'
+image: './rm软件组客户端开发快速引导/10.gif'
+tags: ['软件开发','FYT']
+category: '软件开发'
 draft: false
 lang: ''
 ---
@@ -34,6 +34,13 @@ lang: ''
     我的开源：https://fyt-vision.coding.net/p/fyt2025/d/rm_unity/git
 
     rv仿真开源：https://gitlab.com/rm_vision/rm_vision_simulator
+
+- **数据分析工具软件** (⭐)
+
+    1. 行为树状态可视化工具
+
+    我的开源：https://github.com/riyuexingchennnn/BehaviorTreeMonitor
+
 
 ## 自定义客户端要有多自定义
 

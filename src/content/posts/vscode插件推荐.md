@@ -3,8 +3,8 @@ title: vscode插件推荐
 published: 2024-12-10
 description: ''
 image: ''
-tags: [前端开发]
-category: '生活'
+tags: ['软件开发']
+category: '软件开发'
 draft: false
 lang: ''
 ---
