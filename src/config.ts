@@ -45,7 +45,8 @@ export const navBarConfig: NavBarConfig = {
     LinkPreset.About,
     {
       name: '统计',
-      url: '/analytics/',
+      url: 'https://cloud.umami.is/share/dvktHwCGPSft7SGP',
+      external: true,
     },
     {
       name: '旧博客',
