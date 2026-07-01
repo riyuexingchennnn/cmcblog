@@ -17,7 +17,7 @@ lang: ''
 
 - **自定义客户端** ( ⭐⭐⭐ )
 
-    1. 到在联盟赛的时候能做出一版只为test的demo版，目的只是测试赛场环境下的网络交互。
+    1. 由于官方不支持在联盟赛使用自定义客户端，所以不考虑联盟赛的自定义客户端
     2. 到分区赛或者明年正式上线自定义客户端
 
     > 上场可以通过与官方电脑连接网线共享ip地址的形式，让操作手携带的装有自定义客户端的电脑也能连接上裁判系统(规则是否允许，有待商榷)
@@ -37,10 +37,11 @@ lang: ''
 
 - **数据分析工具软件** (⭐)
 
-    1. 行为树状态可视化工具
+    1. 行为树状态可视化工具（解决Groot2不能监控超过20个行为树节点的问题）
+
+    ![](./rm软件组客户端开发快速引导/19.png)
 
     我的开源：https://github.com/riyuexingchennnn/BehaviorTreeMonitor
-
 
 ## 自定义客户端要有多自定义
 
@@ -59,7 +60,7 @@ lang: ''
 
 为什么采用Unity这种游戏引擎来开发客户端而不是使用Vue或者React这种web框架打包客户端呢？
 
-对于两种方法我只能说各有优劣，我本人也很熟系Vue.js开发，前端web的做法确实很优美，简单，轻量。但是对于这种交互性很强的软件来说，是不是就不合适了呢？
+对于两种方法我只能说各有优劣，我本人也比较熟悉Vue3+TypeScript开发，前端web的做法确实很优美，简单，轻量。但是对于这种交互性很强的软件来说，是不是就不合适了呢？
 
 我询问了很多AI，都给出了选择Unity的答案。这里我采用Gemini的回答(之前没有任何提问历史，没有任何上下文，单纯就是这个问题)
 
@@ -92,11 +93,14 @@ lang: ''
 
 - **ubuntu**
 
-    1. 按顺序安装好unityhub，安装好Unity6.3 LTS(6000.3.1f1) Editor, 注册好unity账户，添加Personal License
+    1. 按顺序安装好unityhub，安装好Unity6.3 LTS(6000.3.12f1) Editor, 注册好unity账户，添加Personal License
 
-        > 如果在下载unity编辑器的时候出现了`下载失败: Validation Failed`，检查clash有没有开TUN虚拟网卡模式
+        > 如果在下载unity编辑器的时候出现了`下载失败: Validation Failed`，检查clash有没有开TUN虚拟网卡模式。安装推荐使用美国节点，全局代理模式，亲测有效。
+
+        ![](./rm软件组客户端开发快速引导/20.png)
 
     2. 安装一个unity的linux补丁工具，解决引擎卡顿问题。
+
         ```bash
         sudo apt-get install unity-tweak-tool
         ```
@@ -186,6 +190,11 @@ lang: ''
     pnpm run udp
     ```
 
+### 我们自己的rm_mock仓库
+
+根据SharkDataSever开源改造，适配最新版的官方通信协议。请用我们自己的仓库开发：https://cnb.cool/fyt-vision/rm_mock
+
+
 ## Protocol Buffers 入门
 
 官方文档是最好的学习资料：https://protobuf.com.cn/overview/
@@ -223,7 +232,7 @@ lang: ''
 
     [官方文档](https://protobuf.com.cn/getting-started/csharptutorial/)
 
-    下载我整理的proto文件<a href="/files/rm_messages.proto" download="rm_messages.proto">rm_messages.proto</a>
+    下载我整理好的rm_messages.proto文件
 
     运行下面指令，会得到一个RmMessages.cs的文件
     ```bash
@@ -331,239 +340,7 @@ public class StartMenuController : MonoBehaviour
 参考Robomaster官方附录三，利用MQTTnet库编写一个脚本main.cs
 
 ```cs
-using MQTTnet;
-using MQTTnet.Client;
-using MQTTnet.Protocol;
-using System;
-using System.Threading.Tasks;
-using UnityEngine;
-using Google.Protobuf;
-using RmMessages;
 
-/// <summary>
-/// GameStatus MQTT 客户端
-/// 用于实时接收服务器发送的 GameStatus 消息
-/// </summary>
-public class GameStatusReceiver : MonoBehaviour
-{
-    [Header("MQTT 连接配置")]
-    [SerializeField] private string brokerHost = "127.0.0.1";
-    [SerializeField] private int brokerPort = 3333;
-    [SerializeField] private string clientId = "rm_custom_client";
-    [SerializeField] private string gameStatusTopic = "GameStatus";
-
-    [Header("状态显示")]
-    [SerializeField] private bool showDebugInfo = true;
-
-    // MQTT 客户端
-    private IMqttClient _mqttClient;
-
-    // 当前游戏状态
-    private GameStatus _currentGameStatus;
-    public GameStatus CurrentGameStatus => _currentGameStatus;
-
-    // 事件：当 GameStatus 更新时触发
-    public event Action<GameStatus> OnGameStatusUpdated;
-
-    // 线程安全的消息队列
-    private readonly System.Collections.Concurrent.ConcurrentQueue<GameStatus> _messageQueue
-        = new System.Collections.Concurrent.ConcurrentQueue<GameStatus>();
-
-    private void Start()
-    {
-        _currentGameStatus = new GameStatus();
-        ConnectToMqttBroker();
-    }
-
-    private void Update()
-    {
-        // 在主线程中处理接收到的消息
-        while (_messageQueue.TryDequeue(out GameStatus status))
-        {
-            _currentGameStatus = status;
-            OnGameStatusUpdated?.Invoke(status);
-
-            if (showDebugInfo)
-            {
-                LogGameStatus(status);
-            }
-        }
-    }
-
-    private void OnDestroy()
-    {
-        Disconnect();
-    }
-
-    private void OnApplicationQuit()
-    {
-        Disconnect();
-    }
-
-    /// <summary>
-    /// 连接到 MQTT Broker
-    /// </summary>
-    public async void ConnectToMqttBroker()
-    {
-        try
-        {
-            Debug.Log($"[GameStatusReceiver] 正在连接到 MQTT Broker: {brokerHost}:{brokerPort}");
-
-            // 客户端选项生成器
-            var options = new MqttClientOptionsBuilder()
-                .WithClientId(clientId)
-                .WithTcpServer(brokerHost, brokerPort)
-                .Build();
-
-            // 创建客户端
-            _mqttClient = new MqttFactory().CreateMqttClient();
-
-            // 监测客户端 连接/断开连接 完成
-            _mqttClient.ConnectedAsync += OnClientConnected;
-            _mqttClient.DisconnectedAsync += OnClientDisconnected;
-
-            // 客户端接收到消息
-            _mqttClient.ApplicationMessageReceivedAsync += OnMessageReceived;
-
-            // 连接服务器
-            await _mqttClient.ConnectAsync(options);
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"[GameStatusReceiver] 连接异常: {ex.Message}");
-        }
-    }
-
-    /// <summary>
-    /// 连接完成回调
-    /// </summary>
-    private Task OnClientConnected(MqttClientConnectedEventArgs args)
-    {
-        Debug.Log("[GameStatusReceiver] 成功连接到 MQTT Broker");
-
-        // 订阅 GameStatus 主题
-        Subscribe(gameStatusTopic);
-
-        return Task.CompletedTask;
-    }
-
-    /// <summary>
-    /// 断开连接回调
-    /// </summary>
-    private Task OnClientDisconnected(MqttClientDisconnectedEventArgs args)
-    {
-        Debug.Log("[GameStatusReceiver] 已断开 MQTT 连接");
-        return Task.CompletedTask;
-    }
-
-    /// <summary>
-    /// 接收到消息回调
-    /// </summary>
-    private Task OnMessageReceived(MqttApplicationMessageReceivedEventArgs args)
-    {
-        try
-        {
-            string topic = args.ApplicationMessage.Topic;
-            byte[] payload = args.ApplicationMessage.PayloadSegment.ToArray();
-
-            if (showDebugInfo)
-            {
-                Debug.Log($"[GameStatusReceiver] 收到消息 topic: {topic}");
-            }
-
-            // 如果是 GameStatus 主题，解析 Protobuf 消息
-            if (topic == gameStatusTopic)
-            {
-                GameStatus status = GameStatus.Parser.ParseFrom(payload);
-                _messageQueue.Enqueue(status);
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"[GameStatusReceiver] 解析消息失败: {ex.Message}");
-        }
-
-        return Task.CompletedTask;
-    }
-
-    /// <summary>
-    /// 订阅主题
-    /// </summary>
-    public void Subscribe(string topic)
-    {
-        _mqttClient?.SubscribeAsync(new MqttTopicFilterBuilder().WithTopic(topic).Build());
-        Debug.Log($"[GameStatusReceiver] 已订阅主题: {topic}");
-    }
-
-    /// <summary>
-    /// 发布字节消息
-    /// </summary>
-    public void PublishBytesMsg(string topic, byte[] message,
-        MqttQualityOfServiceLevel level = MqttQualityOfServiceLevel.ExactlyOnce,
-        bool isRetain = false)
-    {
-        _mqttClient?.PublishBinaryAsync(topic, message, level, isRetain);
-    }
-
-    /// <summary>
-    /// 断开 MQTT 连接
-    /// </summary>
-    public async void Disconnect()
-    {
-        if (_mqttClient != null && _mqttClient.IsConnected)
-        {
-            try
-            {
-                await _mqttClient.DisconnectAsync();
-            }
-            catch (Exception ex)
-            {
-                Debug.LogWarning($"[GameStatusReceiver] 断开连接时出错: {ex.Message}");
-            }
-        }
-    }
-
-    /// <summary>
-    /// 输出 GameStatus 调试信息
-    /// </summary>
-    private void LogGameStatus(GameStatus status)
-    {
-        string stageDesc = status.CurrentStage switch
-        {
-            0 => "未开始比赛",
-            1 => "准备阶段",
-            2 => "裁判系统自检",
-            3 => "五秒倒计时",
-            4 => "比赛中",
-            5 => "比赛结算中",
-            _ => "未知阶段"
-        };
-
-        Debug.Log($"[GameStatus] 第 {status.CurrentRound}/{status.TotalRounds} 局 | " +
-                  $"红方: {status.RedScore} vs 蓝方: {status.BlueScore} | " +
-                  $"阶段: {stageDesc} | " +
-                  $"倒计时: {status.StageCountdownSec}s | " +
-                  $"已用时: {status.StageElapsedSec}s | " +
-                  $"暂停: {status.IsPaused}");
-    }
-
-    /// <summary>
-    /// 获取当前阶段描述
-    /// </summary>
-    public string GetCurrentStageDescription()
-    {
-        return _currentGameStatus?.CurrentStage switch
-        {
-            0 => "未开始比赛",
-            1 => "准备阶段",
-            2 => "裁判系统自检",
-            3 => "五秒倒计时",
-            4 => "比赛中",
-            5 => "比赛结算中",
-            _ => "未知阶段"
-        };
-    }
-}
 ```
 
 运行unity，打开Mock测试端，发送GameStatus消息。如果在unity中看到有收到这个话题消息，即为成功
@@ -625,3 +402,14 @@ string arguments = $"-f hevc -i pipe:0 -f rawvideo -pix_fmt rgb24 -s {videoWidth
 
 unity ai绕过了nvidia cuda深度学习框架，使用的是GPU计算图的方式加速AI推理和unity的shader类似。使得用户不需要安装CUDA深度学习环境，只需要安装过显卡驱动就行了。
 
+# 注意事项
+
+Q：为什么Unity6.3总是下载失败？
+
+A：最好的方法依然是使用Unity Hub下载，尽量减少要安装的组件，降低安装失败的概率，选择美国节点，检查一下我上面的说的clash配置，如果配置正确下载失败，切换节点多试几次。
+
+Q：为什么使用Unity 6000.3.12f1版本？
+
+A：这是官方目前最新推荐的LTS版本，之前有测试过6000.3.1f1版本，和6000.3.10f1版本。据说6000.3.10f1版本inputsystem插件有签名问题以及功能bug。
+
+Q：
