@@ -44,6 +44,10 @@ export const navBarConfig: NavBarConfig = {
     LinkPreset.Archive,
     LinkPreset.About,
     {
+      name: '统计',
+      url: '/analytics/',
+    },
+    {
       name: '旧博客',
       url: 'https://wangchuanfu294.github.io',     // Internal links should not include the base path, as it is automatically added
       external: true,                               // Show an external link icon and will open in a new tab
