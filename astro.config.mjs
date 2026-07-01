@@ -26,7 +26,7 @@ import { remarkReadingTime } from './src/plugins/remark-reading-time.mjs'
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://riyuexingchennnn.github.io/',
+  site: 'https://cmcblog.netlify.app/',
   base: '/',
   trailingSlash: 'always',
   integrations: [
@@ -102,7 +102,37 @@ export default defineConfig({
       },
     }),
     svelte(),
-    sitemap(),
+    sitemap({
+      changefreq: 'weekly',
+      priority: 0.7,
+      serialize(item) {
+        const pathname = new URL(item.url).pathname
+
+        if (pathname === '/') {
+          return {
+            ...item,
+            changefreq: 'daily',
+            priority: 1,
+          }
+        }
+
+        if (pathname.startsWith('/posts/')) {
+          return {
+            ...item,
+            priority: 0.9,
+          }
+        }
+
+        if (pathname.startsWith('/archive')) {
+          return {
+            ...item,
+            priority: 0.8,
+          }
+        }
+
+        return item
+      },
+    }),
   ],
   markdown: {
     remarkPlugins: [

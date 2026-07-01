@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cmcblog.netlify.app/sitemap-index.xml
